@@ -303,6 +303,18 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 </div>
 
 <script>
+// ====== 版本自动刷新机制（解决iOS PWA缓存） ======
+(function(){
+  var CUR_VER='20260730b'; // 当前版本号，每次更新递增
+  var stored=localStorage.getItem('xy_ver');
+  if(stored && stored!==CUR_VER){
+    localStorage.setItem('xy_ver',CUR_VER);
+    if(caches){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k)})})}
+    location.reload(true);
+    return;
+  }
+  localStorage.setItem('xy_ver',CUR_VER);
+})();
 const POEMS = [
 {n:1,title:"咏鹅",author:"骆宾王",pinyin:"yǒng é",content:"鹅鹅鹅，曲项向天歌。白毛浮绿水，红掌拨清波。",pinyinChars:["é","é","é","qū","xiàng","xiàng","tiān","gē","bái","máo","fú","lǜ","shuǐ","hóng","zhǎng","bō","qīng","bō"],translate:"大白鹅呀大白鹅，弯着脖子向天唱歌。洁白的羽毛浮在绿水上，红色的脚掌拨动着清澈的水波。",appreciation:"这首诗以儿童的眼光观察鹅的形态与动作，色彩鲜明，动静结合，是骆宾王七岁时的作品。",authorIntro:"骆宾王（约640-684），唐代诗人，'初唐四杰'之一，七岁能诗。",tag:"动物"},
 {n:2,title:"春晓",author:"孟浩然",pinyin:"chūn xiǎo",content:"春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。",pinyinChars:["chūn","mián","bù","jué","xiǎo","chù","chù","wén","tí","niǎo","yè","lái","fēng","yǔ","shēng","huā","luò","zhī","duō","shǎo"],translate:"春日酣睡不知不觉天已破晓，到处都能听到鸟儿啼叫。昨夜风声雨声不断，不知有多少花瓣被吹落？",appreciation:"诗人寥寥数语勾勒春晨的慵懒与生机，'花落知多少'含惜春之情。",authorIntro:"孟浩然（689-740），唐代山水田园诗人，与王维并称'王孟'。",tag:"春天"},
