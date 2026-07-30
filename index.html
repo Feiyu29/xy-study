@@ -270,7 +270,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 <script>
 // 版本自动刷新
-(function(){var V='20260730d';var S=localStorage.getItem('xy_ver');if(S&&S!==V){localStorage.setItem('xy_ver',V);if(caches)caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k)})});location.reload(true);return}localStorage.setItem('xy_ver',V)})();
+(function(){var V='20260730e';var S=localStorage.getItem('xy_ver');if(S&&S!==V){localStorage.setItem('xy_ver',V);if(caches)caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k)})});location.reload(true);return}localStorage.setItem('xy_ver',V)})();
 
 // ====== 朗读引擎（慢速+停顿，适合低龄跟读）======
 let speaking=false;
@@ -464,7 +464,10 @@ function toggleLearn(n){
 function readPoem(n){
   const p=POEMS.find(x=>x.n===n);
   if(!p)return;
-  const text=p.title+'，'+p.author+'。'+p.content;
+  let text=p.title+'，'+(p.dynasty?p.dynasty:'')+' '+p.author+'。'+p.content;
+  if(p.translate){
+    text+='。'+p.translate;
+  }
   speak(text,'zh-CN');
 }
 
@@ -899,15 +902,22 @@ function readCalc(a,op,b,r,itemName){
   toast('🔊 '+text);
 }
 let quizCur=null;
+const QUIZ_ITEMS=[
+  {name:'苹果',emoji:'🍎'},{name:'草莓',emoji:'🍓'},{name:'花朵',emoji:'🌸'},
+  {name:'星星',emoji:'⭐'},{name:'小鱼',emoji:'🐠'},{name:'气球',emoji:'🎈'},
+  {name:'蝴蝶',emoji:'🦋'},{name:'鸭子',emoji:'🦆'},{name:'糖果',emoji:'🍬'},
+  {name:'柠檬',emoji:'🍋'},{name:'企鹅',emoji:'🐧'},{name:'老虎',emoji:'🐯'}
+];
 function renderCalcQuiz(){
   const a=Math.floor(Math.random()*9)+1;
   const b=Math.floor(Math.random()*9)+1;
   let op,q,ans;
   if(Math.random()>0.5){op='+';ans=a+b;if(ans>10)return renderCalcQuiz();q=a+' + '+b+' = ?'}
   else{if(a<b)return renderCalcQuiz();op='-';ans=a-b;q=a+' − '+b+' = ?'}
-  quizCur={a,op,b,r:ans};
-  const em=CALC_EMOJI[Math.floor(Math.random()*CALC_EMOJI.length)];
-  const itemName=['苹果','草莓','花朵','星星','小鱼','气球'][Math.floor(Math.random()*6)];
+  const pick=QUIZ_ITEMS[Math.floor(Math.random()*QUIZ_ITEMS.length)];
+  const em=pick.emoji;
+  const itemName=pick.name;
+  quizCur={a,op,b,r:ans,itemName,em};
   let cells='';
   for(let k=0;k<10;k++){
     let cls='';
@@ -928,21 +938,21 @@ function renderCalcQuiz(){
       '<div class="calc-emoji-row">'+emojiRow+'</div>'+
       '<div class="ten-frame">'+cells+'</div>'+
       '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">'+
-        opts.map(o=>'<button class="big-btn ghost" onclick="answerCalc('+o+',\''+itemName+'\')">'+o+'</button>').join('')+
+        opts.map(o=>'<button class="big-btn ghost" onclick="answerCalc('+o+')">'+o+'</button>').join('')+
       '</div>'+
-      '<button class="btn-read" style="margin-top:14px" onclick="readCalcQuiz(\''+itemName+'\')">🔊 听题目</button>'+
+      '<button class="btn-read" style="margin-top:14px" onclick="readCalcQuiz()">🔊 听题目</button>'+
     '</div>';
 }
-function readCalcQuiz(itemName){
+function readCalcQuiz(){
   if(!quizCur)return;
-  const q=quizCur.a+'个'+itemName+(quizCur.op==='+'?'加':'减')+quizCur.b+'个'+itemName+'等于几';
+  const q=quizCur.a+'个'+quizCur.itemName+(quizCur.op==='+'?'加':'减')+quizCur.b+'个'+quizCur.itemName+'等于几';
   speak(q,'zh-CN');
 }
-function answerCalc(o,itemName){
+function answerCalc(o){
   if(!quizCur)return;
   if(o===quizCur.r){
     toast('✓ 答对了！');
-    const text=quizCur.a+'个'+itemName+(quizCur.op==='+'?'加':'减')+quizCur.b+'个'+itemName+'等于'+quizCur.r+'个'+itemName;
+    const text=quizCur.a+'个'+quizCur.itemName+(quizCur.op==='+'?'加':'减')+quizCur.b+'个'+quizCur.itemName+'等于'+quizCur.r+'个'+quizCur.itemName;
     speak(text,'zh-CN');
     addSun(3);
     setTimeout(renderCalcQuiz,2000);
