@@ -223,6 +223,75 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .base-screen .bs-score{font-size:32px;font-weight:700;color:var(--yellow)}
 .base-screen .bs-wave{font-size:14px;opacity:.8;margin-top:6px}
 
+/* 幼儿园启蒙 */
+.kids-hero{
+  background:linear-gradient(135deg,#7BC8F6 0%,#B8E0F6 100%);
+  border-radius:18px;padding:24px;color:#fff;margin-bottom:18px;box-shadow:0 6px 20px rgba(123,200,246,.3);
+}
+.kids-hero .kh-title{font-size:22px;font-weight:700}
+.kids-hero .kh-sub{font-size:13px;opacity:.9;margin-top:4px}
+.kids-entry-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.kids-entry-card{
+  background:#fff;border-radius:18px;padding:24px 16px;text-align:center;cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.06);transition:transform .15s,box-shadow .15s;border:2px solid transparent;
+}
+.kids-entry-card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.1)}
+.kids-entry-card:active{transform:scale(.97)}
+.kids-entry-card .ke-icon{font-size:48px;line-height:1;margin-bottom:12px}
+.kids-entry-card .ke-name{font-size:17px;font-weight:700;color:var(--text)}
+.kids-entry-card .ke-desc{font-size:12px;color:var(--text-light);margin-top:4px}
+.ke-abc{background:linear-gradient(180deg,#FFF9E6 0%,#fff 100%);border-color:#FFE082}
+.ke-num{background:linear-gradient(180deg,#E8F5E9 0%,#fff 100%);border-color:#A5D6A7}
+
+/* 英语卡片网格 */
+.kids-cat-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:14px;margin-bottom:6px;scrollbar-width:none}
+.kids-cat-bar::-webkit-scrollbar{display:none}
+.kids-cat-bar .kcb{flex-shrink:0;padding:7px 16px;border-radius:18px;background:#fff;border:1px solid var(--border);font-size:13px;color:var(--text-sub);cursor:pointer}
+.kids-cat-bar .kcb.active{background:#7BC8F6;color:#fff;border-color:#7BC8F6}
+.kids-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.kids-card{
+  border-radius:16px;padding:18px 14px;text-align:center;cursor:pointer;
+  transition:transform .15s,box-shadow .15s;position:relative;
+}
+.kids-card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.1)}
+.kids-card:active{transform:scale(.95)}
+.kids-card .kc-emoji{font-size:44px;line-height:1;margin-bottom:10px}
+.kids-card .kc-cn{font-size:16px;font-weight:700;color:#333;margin-bottom:4px}
+.kids-card .kc-en{font-size:18px;font-weight:700;margin-bottom:4px}
+.kids-card .kc-phon{font-size:11px;color:#666;font-style:italic;margin-bottom:8px}
+.kids-card .kc-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:8px;background:rgba(255,255,255,.6)}
+/* 卡片配色 */
+.kc-c-yellow{background:#FFF4D6}.kc-c-yellow .kc-en{color:#E69500}.kc-c-yellow .kc-tag{color:#B8860B;background:#FFE9A8}
+.kc-c-green{background:#E3F2E8}.kc-c-green .kc-en{color:#2E7D3A}.kc-c-green .kc-tag{color:#2E7D3A;background:#C8E6C9}
+.kc-c-blue{background:#E3F2FD}.kc-c-blue .kc-en{color:#1565C0}.kc-c-blue .kc-tag{color:#1565C0;background:#BBDEFB}
+.kc-c-pink{background:#FCE4EC}.kc-c-pink .kc-en{color:#C2185B}.kc-c-pink .kc-tag{color:#C2185B;background:#F8BBD0}
+.kc-c-purple{background:#EDE7F6}.kc-c-purple .kc-en{color:#5E35B1}.kc-c-purple .kc-tag{color:#5E35B1;background:#D1C4E9}
+.kc-c-orange{background:#FFF0E0}.kc-c-orange .kc-en{color:#E65100}.kc-c-orange .kc-tag{color:#E65100;background:#FFE0B2}
+
+/* 大图弹窗 */
+.kids-modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.kids-modal-mask.show{display:flex}
+.kids-big-card{
+  border-radius:24px;padding:32px 24px;text-align:center;max-width:340px;width:100%;
+  animation:bounceIn .4s cubic-bezier(.68,-.55,.265,1.55);
+}
+@keyframes bounceIn{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+.kids-big-card .kbc-emoji{font-size:96px;line-height:1;margin-bottom:16px}
+.kids-big-card .kbc-cn{font-size:24px;font-weight:700;margin-bottom:8px}
+.kids-big-card .kbc-en{font-size:30px;font-weight:700;margin-bottom:6px}
+.kids-big-card .kbc-phon{font-size:14px;color:#555;font-style:italic;margin-bottom:18px}
+.kids-big-card .kbc-tip{background:rgba(255,255,255,.6);border-radius:12px;padding:10px;font-size:14px;margin-bottom:14px}
+.kids-big-card .kbc-close{background:rgba(255,255,255,.7);border-radius:20px;padding:8px 24px;font-size:14px;font-weight:600}
+
+/* 数字卡片 */
+.num-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:16px}
+.num-card{background:#fff;border-radius:16px;padding:20px 14px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.05);border:1.5px solid #E3F2FD}
+.num-card .nc-big{font-size:54px;font-weight:700;color:#1565C0;line-height:1}
+.num-card .nc-cn{font-size:18px;color:#333;margin:6px 0 2px;font-weight:600}
+.num-card .nc-en{font-size:15px;color:#1565C0;font-style:italic;margin-bottom:10px}
+.num-card .nc-emoji{font-size:28px;letter-spacing:2px}
+.num-card .nc-say{display:inline-block;margin-top:8px;background:#E3F2FD;color:#1565C0;font-size:12px;padding:4px 12px;border-radius:12px;cursor:pointer}
+
 @media (max-width:1024px){
 @media (max-width:640px){
   .topbar{padding:0 14px;height:56px}
@@ -267,6 +336,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <aside class="sidebar" id="sidebar">
     <div class="sb-group">
       <div class="sb-group-title">学习天地</div>
+      <div class="sb-item" data-page="kids" onclick="goPage('kids',this)"><span class="ico">🧒</span><span>幼儿园启蒙</span></div>
       <div class="sb-item" data-page="chinese" onclick="goPage('chinese',this)"><span class="ico">📖</span><span>汉字学习</span></div>
       <div class="sb-item active" data-page="poem" onclick="goPage('poem',this)"><span class="ico">📜</span><span>古诗100首</span></div>
       <div class="sb-item" data-page="math" onclick="goPage('math',this)"><span class="ico">🔢</span><span>算术天地</span></div>
@@ -287,6 +357,33 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   <div class="scrim" id="scrim" onclick="closeSidebar()"></div>
 
   <main class="main">
+
+    <!-- 幼儿园启蒙学习 -->
+    <div class="page" id="page-kids">
+      <div class="kids-hero">
+        <div class="kh-title">🧒 幼儿园启蒙学习</div>
+        <div class="kh-sub">趣味启蒙 · 快乐成长</div>
+      </div>
+      <div class="kids-entry-row">
+        <div class="kids-entry-card ke-abc" onclick="goPage('kidsabc')">
+          <div class="ke-icon">📚</div>
+          <div class="ke-name">英语短句启蒙</div>
+          <div class="ke-desc">ABC · 22张卡片</div>
+        </div>
+        <div class="kids-entry-card ke-num" onclick="goPage('kidsnum')">
+          <div class="ke-icon">🔢</div>
+          <div class="ke-name">认识数字1-10</div>
+          <div class="ke-desc">123 · 趣味数数</div>
+        </div>
+      </div>
+      <div class="card" style="text-align:center;padding:14px;font-size:13px;color:var(--text-sub)">
+        🌈 点击上方任一卡片开始学习吧
+      </div>
+    </div>
+    <!-- 幼儿园：英语短句启蒙 -->
+    <div class="page" id="page-kidsabc"></div>
+    <!-- 幼儿园：认识数字1-10 -->
+    <div class="page" id="page-kidsnum"></div>
 
     <!-- 古诗100首 -->
     <div class="page active" id="page-poem">
@@ -356,19 +453,22 @@ function setActive(el){
 }
 function goPage(name, el){
   document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
-  el.classList.add('active');
+  if(el) el.classList.add('active');
+  else {
+    // 子页面（无菜单项）：高亮对应父菜单
+    const map={kidsabc:'kids',kidsnum:'kids'};
+    const parent=map[name];
+    if(parent){
+      const item=document.querySelector(`.sb-item[data-page="${parent}"]`);
+      if(item) item.classList.add('active');
+    }
+  }
   document.querySelectorAll('.main .page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   window.scrollTo(0,0);
   if(window.innerWidth<=1024) closeSidebar();
-  if(name==='chinese') renderChinese();
-  if(name==='math') renderMath();
-  if(name==='think') renderThink();
-  if(name==='english') renderEnglish();
-  if(name==='wrong') renderWrong();
-  if(name==='base') renderBase();
-  if(name==='reward') renderReward();
-  if(name==='calendar') renderCalendar();
+  const initMap={chinese:renderChinese,math:renderMath,think:renderThink,english:renderEnglish,wrong:renderWrong,base:renderBase,reward:renderReward,calendar:renderCalendar,kidsabc:renderKidsAbc,kidsnum:renderKidsNum};
+  if(initMap[name]) initMap[name]();
 }
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show')}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show')}
@@ -772,6 +872,177 @@ function renderCalendar(){
         <span>🟢 已打卡</span><span>🔵 今天</span>
       </div>
     </div>`;
+}
+// ============ 幼儿园：英语短句启蒙 ============
+const KIDS_ABC=[
+  // 打招呼
+  {cn:'你好',en:'Hello',phon:'/həˈloʊ/',emoji:'👋',cat:'打招呼',color:'yellow'},
+  {cn:'再见',en:'Goodbye',phon:'/ˌɡʊdˈbaɪ/',emoji:'👋',cat:'打招呼',color:'green'},
+  {cn:'谢谢你',en:'Thank you',phon:'/θæŋk juː/',emoji:'🙏',cat:'打招呼',color:'pink'},
+  {cn:'对不起',en:'Sorry',phon:'/ˈsɒri/',emoji:'😌',cat:'打招呼',color:'purple'},
+  // 日常短句
+  {cn:'我爱你',en:'I love you',phon:'/aɪ lʌv juː/',emoji:'❤️',cat:'日常短句',color:'pink'},
+  {cn:'我饿了',en:"I'm hungry",phon:'/aɪm ˈhʌŋɡri/',emoji:'😋',cat:'日常短句',color:'orange'},
+  {cn:'我累了',en:"I'm tired",phon:'/aɪm ˈtaɪərd/',emoji:'😴',cat:'日常短句',color:'purple'},
+  {cn:'洗手',en:'Wash hands',phon:'/wɒʃ hændz/',emoji:'🧼',cat:'日常短句',color:'blue'},
+  {cn:'睡觉啦',en:'Go to bed',phon:'/ɡoʊ tə bed/',emoji:'🛏️',cat:'日常短句',color:'purple'},
+  {cn:'刷牙',en:'Brush teeth',phon:'/brʌʃ tiːθ/',emoji:'🪥',cat:'日常短句',color:'blue'},
+  // 单词
+  {cn:'苹果',en:'Apple',phon:'/ˈæpl/',emoji:'🍎',cat:'单词',color:'pink'},
+  {cn:'香蕉',en:'Banana',phon:'/bəˈnɑːnə/',emoji:'🍌',cat:'单词',color:'yellow'},
+  {cn:'小猫',en:'Cat',phon:'/kæt/',emoji:'🐱',cat:'单词',color:'orange'},
+  {cn:'小狗',en:'Dog',phon:'/dɒɡ/',emoji:'🐶',cat:'单词',color:'orange'},
+  {cn:'太阳',en:'Sun',phon:'/sʌn/',emoji:'☀️',cat:'单词',color:'yellow'},
+  {cn:'月亮',en:'Moon',phon:'/muːn/',emoji:'🌙',cat:'单词',color:'purple'},
+  {cn:'星星',en:'Star',phon:'/stɑːr/',emoji:'⭐',cat:'单词',color:'yellow'},
+  {cn:'球',en:'Ball',phon:'/bɔːl/',emoji:'⚽',cat:'单词',color:'blue'},
+  {cn:'书',en:'Book',phon:'/bʊk/',emoji:'📖',cat:'单词',color:'green'},
+  {cn:'玩具',en:'Toy',phon:'/tɔɪ/',emoji:'🧸',cat:'单词',color:'pink'},
+];
+let kidsCat='全部';
+function renderKidsAbc(){
+  const el=document.getElementById('page-kidsabc');
+  const cats=['全部',...Array.from(new Set(KIDS_ABC.map(x=>x.cat)))];
+  const list = kidsCat==='全部'?KIDS_ABC:KIDS_ABC.filter(x=>x.cat===kidsCat);
+  el.innerHTML=`
+    <div class="section-title"><span class="ico">📚</span><span>英语短句启蒙</span> <span style="font-size:13px;color:var(--text-light);font-weight:400">点击卡片放大</span></div>
+    <button class="btn-ghost btn-sm" style="margin-bottom:12px;width:auto" onclick="goPage('kids')">← 返回启蒙首页</button>
+    <div class="kids-cat-bar">${cats.map(c=>`<div class="kcb ${c===kidsCat?'active':''}" onclick="pickKidsCat('${c}')">${c}</div>`).join('')}</div>
+    <div class="kids-grid">
+      ${list.map((x,i)=>{
+        const realIdx=KIDS_ABC.indexOf(x);
+        return `<div class="kids-card kc-c-${x.color}" onclick="openKidsCard(${realIdx})">
+          <div class="kc-emoji">${x.emoji}</div>
+          <div class="kc-cn">${x.cn}</div>
+          <div class="kc-en">${x.en}</div>
+          <div class="kc-phon">${x.phon}</div>
+          <span class="kc-tag">${x.cat}</span>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+function pickKidsCat(c){kidsCat=c;renderKidsAbc()}
+function openKidsCard(i){
+  const x=KIDS_ABC[i];
+  const mask=document.createElement('div');
+  mask.className='kids-modal-mask show';
+  mask.innerHTML=`<div class="kids-big-card kc-c-${x.color}" style="background:${getKcBg(x.color)}">
+    <div class="kbc-emoji">${x.emoji}</div>
+    <div class="kbc-cn">${x.cn}</div>
+    <div class="kbc-en">${x.en}</div>
+    <div class="kbc-phon">${x.phon}</div>
+    <div class="kbc-tip">📢 请跟我读：${x.en} / ${x.cn}</div>
+    <button class="btn btn-sm" style="margin-bottom:10px" onclick="readKids('${x.en}','${x.cn}')">🔊 听读音</button>
+    <br><button class="kbc-close" onclick="this.closest('.kids-modal-mask').remove()">关闭</button>
+  </div>`;
+  mask.addEventListener('click',e=>{if(e.target===mask)mask.remove()});
+  document.body.appendChild(mask);
+  // 自动朗读
+  readKids(x.en,x.cn);
+}
+function getKcBg(c){return {yellow:'#FFF4D6',green:'#E3F2E8',blue:'#E3F2FD',pink:'#FCE4EC',purple:'#EDE7F6',orange:'#FFF0E0'}[c]||'#fff'}
+function readKids(en,cn){
+  if(!('speechSynthesis' in window)){toast('浏览器不支持朗读');return}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(en+' ... '+cn);
+  u.lang='en-US';u.rate=0.75;
+  const u2=new SpeechSynthesisUtterance(cn);u2.lang='zh-CN';u2.rate=0.85;
+  speechSynthesis.speak(u);
+  setTimeout(()=>speechSynthesis.speak(u2),1500);
+}
+
+// ============ 幼儿园：认识数字1-10 ============
+const KIDS_NUM=[
+  {n:1,cn:'一',en:'one',phon:'/wʌn/',emoji:'🍎',repeat:1},
+  {n:2,cn:'二',en:'two',phon:'/tuː/',emoji:'🐱',repeat:2},
+  {n:3,cn:'三',en:'three',phon:'/θriː/',emoji:'⭐',repeat:3},
+  {n:4,cn:'四',en:'four',phon:'/fɔːr/',emoji:'🌸',repeat:4},
+  {n:5,cn:'五',en:'five',phon:'/faɪv/',emoji:'🎈',repeat:5},
+  {n:6,cn:'六',en:'six',phon:'/sɪks/',emoji:'🍓',repeat:6},
+  {n:7,cn:'七',en:'seven',phon:'/ˈsevn/',emoji:'🌷',repeat:7},
+  {n:8,cn:'八',en:'eight',phon:'/eɪt/',emoji:'🐠',repeat:8},
+  {n:9,cn:'九',en:'nine',phon:'/naɪn/',emoji:'🦋',repeat:9},
+  {n:10,cn:'十',en:'ten',phon:'/ten/',emoji:'🚗',repeat:10},
+];
+function renderKidsNum(){
+  const el=document.getElementById('page-kidsnum');
+  el.innerHTML=`
+    <div class="section-title"><span class="ico">🔢</span><span>认识数字 1-10</span></div>
+    <button class="btn-ghost btn-sm" style="margin-bottom:12px;width:auto" onclick="goPage('kids')">← 返回启蒙首页</button>
+    <div class="num-grid" id="numGrid">
+      ${KIDS_NUM.map((x,i)=>`<div class="num-card" id="nc${i}">
+        <div class="nc-big">${x.n}</div>
+        <div class="nc-cn">${x.cn}</div>
+        <div class="nc-en">${x.en} ${x.phon}</div>
+        <div class="nc-emoji">${x.emoji.repeat(x.repeat)}</div>
+        <div class="nc-say" onclick="readNum(${i})">🔊 跟读</div>
+      </div>`).join('')}
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button class="btn" style="flex:1" onclick="countAll()">🧮 跟着数一数</button>
+      <button class="btn btn-outline" style="flex:1" onclick="quizNum()">🎲 打乱考一考</button>
+    </div>
+    <button class="btn-ghost btn-sm" style="width:100%;margin-top:10px" onclick="goPage('home')">🏠 回到首页</button>`;
+}
+function readNum(i){
+  const x=KIDS_NUM[i];
+  if(!('speechSynthesis' in window)){toast('不支持朗读');return}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(x.en);u.lang='en-US';u.rate=0.7;
+  const u2=new SpeechSynthesisUtterance(x.cn+', '+x.cn+', '+(x.n+' ').repeat(x.repeat).trim());u2.lang='zh-CN';u2.rate=0.8;
+  speechSynthesis.speak(u);
+  setTimeout(()=>speechSynthesis.speak(u2),1200);
+}
+let counting=false;
+function countAll(){
+  if(counting)return;
+  counting=true;
+  let i=0;
+  const step=()=>{
+    if(i>=10){counting=false;toast('🎉 数完啦！');return}
+    document.querySelectorAll('.num-card').forEach(c=>c.style.transform='');
+    const c=document.getElementById('nc'+i);
+    if(c){c.style.transform='scale(1.08)';c.style.transition='transform .3s';
+      const x=KIDS_NUM[i];
+      speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(x.en);u.lang='en-US';u.rate=0.7;
+      speechSynthesis.speak(u);
+      const u2=new SpeechSynthesisUtterance(x.cn);u2.lang='zh-CN';u2.rate=0.8;
+      setTimeout(()=>speechSynthesis.speak(u2),700);
+    }
+    i++;setTimeout(step,1200);
+  };
+  step();
+}
+function quizNum(){
+  const idx=Math.floor(Math.random()*10);
+  const x=KIDS_NUM[idx];
+  const mask=document.createElement('div');
+  mask.className='kids-modal-mask show';
+  mask.innerHTML=`<div class="kids-big-card" style="background:#E3F2FD">
+    <div class="kbc-emoji">${x.emoji.repeat(x.repeat)}</div>
+    <div class="kbc-cn" style="color:#1565C0">这是几个？</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0">
+      ${[...Array(10)].map((_,i)=>`<button onclick="answerQuiz(${i+1},${x.n},this)" style="width:50px;height:50px;border-radius:12px;background:#fff;border:2px solid #BBDEFB;font-size:20px;font-weight:700;color:#1565C0">${i+1}</button>`).join('')}
+    </div>
+    <button class="kbc-close" onclick="this.closest('.kids-modal-mask').remove()">关闭</button>
+  </div>`;
+  mask.addEventListener('click',e=>{if(e.target===mask)mask.remove()});
+  document.body.appendChild(mask);
+}
+function answerQuiz(ans,correct,btn){
+  if(ans===correct){
+    btn.style.background='#A5D6A7';btn.style.borderColor='#2E7D3A';btn.style.color='#2E7D3A';
+    toast('✓ 答对了！是 '+correct);
+    const x=KIDS_NUM.find(k=>k.n===correct);
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(x.en);u.lang='en-US';u.rate=0.7;
+    speechSynthesis.speak(u);
+    setTimeout(()=>{const m=document.querySelector('.kids-modal-mask.show');if(m)m.remove()},1500);
+  }else{
+    btn.style.background='#FFCDD2';btn.style.borderColor='#C62828';btn.style.color='#C62828';
+    toast('✗ 再数一数');
+  }
 }
 </script>
 </body>
