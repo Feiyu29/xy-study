@@ -28,7 +28,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:17px}
 
 .topbar{background:var(--primary);height:64px;display:flex;align-items:center;padding:0 20px;position:sticky;top:0;z-index:50;color:#fff;box-shadow:0 2px 8px rgba(64,163,245,.15)}
-.topbar .brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:600;min-width:200px}
+.topbar .brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:600;min-width:0;flex:1;overflow:hidden;white-space:nowrap}
 .topbar .brand-icon{font-size:28px}
 .topbar .date{flex:1;text-align:center;font-size:15px;opacity:.95}
 .topbar .sun-btn{background:rgba(255,255,255,.2);padding:8px 16px;border-radius:30px;display:flex;align-items:center;gap:6px;font-size:15px;font-weight:600}
@@ -48,7 +48,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .main{flex:1;padding:24px 28px;min-width:0;overflow-x:hidden}
 .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}
 .scrim.show{display:block}
-.menu-toggle{display:none;margin-right:12px;font-size:24px;cursor:pointer;color:#fff}
+.menu-toggle{display:none;align-items:center;justify-content:center;width:44px;height:44px;font-size:24px;cursor:pointer;color:#fff;flex-shrink:0;border-radius:8px}
+.menu-toggle:active{background:rgba(255,255,255,.2)}
 
 .section-title{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:600;margin-bottom:18px}
 .section-title .ico{font-size:26px}
@@ -172,14 +173,16 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 @media(max-width:640px){
   body{font-size:16px}
-  .topbar{padding:0 14px;height:56px}
-  .topbar .brand{font-size:17px;min-width:auto}
-  .topbar .brand-icon{font-size:24px}
+  .topbar{padding:0 10px;height:52px;gap:6px}
+  .topbar .brand{font-size:15px;min-width:0;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .topbar .brand-icon{font-size:22px;flex-shrink:0}
   .topbar .date{display:none}
-  .topbar .sun-btn{padding:6px 12px;font-size:14px}
-  .layout{min-height:calc(100vh - 56px)}
-  .sidebar{top:56px;height:calc(100vh - 56px);width:210px}
-  .main{padding:16px 14px}
+  .topbar .sun-btn{padding:6px 10px;font-size:13px;flex-shrink:0}
+  .menu-toggle{display:flex;align-items:center;justify-content:center;width:40px;height:40px;font-size:22px;flex-shrink:0;margin-right:4px;border-radius:8px}
+  .menu-toggle:active{background:rgba(255,255,255,.2)}
+  .layout{min-height:calc(100vh - 52px)}
+  .sidebar{top:52px;height:calc(100vh - 52px);width:210px}
+  .main{padding:14px 12px}
   .section-title{font-size:20px}
   .cards-row{grid-template-columns:1fr;gap:12px;margin-bottom:20px}
   .stat-card{padding:18px;flex-direction:row;justify-content:space-between;gap:14px}
@@ -270,7 +273,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 <script>
 // 版本自动刷新
-(function(){var V='20260730e';var S=localStorage.getItem('xy_ver');if(S&&S!==V){localStorage.setItem('xy_ver',V);if(caches)caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k)})});location.reload(true);return}localStorage.setItem('xy_ver',V)})();
+(function(){var V='20260731a';var S=localStorage.getItem('xy_ver');if(S&&S!==V){localStorage.setItem('xy_ver',V);if(caches)caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k)})});location.reload(true);return}localStorage.setItem('xy_ver',V)})();
 
 // ====== 朗读引擎（慢速+停顿，适合低龄跟读）======
 let speaking=false;
