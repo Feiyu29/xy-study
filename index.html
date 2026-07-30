@@ -137,6 +137,21 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .calc-eq{font-size:36px;font-weight:700;text-align:center;color:var(--primary-dark);margin-bottom:10px}
 .calc-emoji-row{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;font-size:30px;margin:10px 0}
 
+/* 英语启蒙卡片 */
+.eng-search{margin-bottom:14px}
+.eng-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.eng-card{background:#fff;border-radius:16px;padding:16px 12px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.06);border:1.5px solid #E8F5E9;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden}
+.eng-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(76,175,80,.15)}
+.eng-card .ec-emoji{font-size:42px;line-height:1;margin-bottom:8px}
+.eng-card .ec-en{font-size:18px;font-weight:700;color:#2E7D32;margin-bottom:4px;line-height:1.3}
+.eng-card .ec-cn{font-size:15px;color:#555;margin-bottom:8px}
+.eng-card .ec-read{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#E8F5E9;color:#2E7D32;font-size:16px}
+.eng-card .ec-cat{position:absolute;top:6px;right:6px;background:rgba(76,175,80,.12);color:#2E7D32;font-size:10px;padding:2px 8px;border-radius:8px}
+.eng-detail-emoji{font-size:80px;text-align:center;margin:10px 0 16px}
+.eng-detail-en{font-size:26px;font-weight:700;color:#2E7D32;text-align:center;margin-bottom:6px}
+.eng-detail-cn{font-size:18px;color:#666;text-align:center;margin-bottom:16px}
+
+
 /* 大按钮通用 */
 .btn-big{padding:16px;border-radius:30px;font-size:18px;font-weight:600;width:100%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
 .btn-big:active{transform:scale(.98)}
@@ -169,7 +184,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .stat-card{padding:20px;flex-direction:row;justify-content:space-between;gap:14px}
   .stat-card .ico{font-size:32px;margin-bottom:0;height:auto}
   .stat-card .num{font-size:32px}
-  .poem-grid,.num-grid{grid-template-columns:1fr;gap:12px}
+  .poem-grid,.num-grid,.eng-grid{grid-template-columns:1fr;gap:12px}
   .poem-card{padding:16px}
   .poem-card .pc-title{font-size:17px}
   .detail-title{font-size:22px}
@@ -195,6 +210,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <div class="sb-item" data-page="poem" onclick="go('poem',this)"><span class="ico">📜</span><span>古诗100首</span></div>
       <div class="sb-item" data-page="num50" onclick="go('num50',this)"><span class="ico">🔢</span><span>认识数字1-50</span></div>
       <div class="sb-item" data-page="calc" onclick="go('calc',this)"><span class="ico">➕</span><span>10以内加减法</span></div>
+      <div class="sb-item" data-page="eng" onclick="go('eng',this)"><span class="ico">🔤</span><span>英语短句启蒙</span></div>
     </div>
   </aside>
   <div class="scrim" id="scrim" onclick="closeSidebar()"></div>
@@ -240,6 +256,23 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       </div>
       <div id="calcBox"></div>
     </div>
+
+    <!-- 英语短句启蒙 -->
+    <div class="page" id="page-eng">
+      <div class="section-title"><span class="ico">🔤</span><span>英语短句启蒙</span></div>
+      <div class="cards-row">
+        <div class="stat-card"><div class="ico">🔤</div><div class="num" id="engTotal">0</div><div class="label">单词短句</div></div>
+        <div class="stat-card"><div class="ico">📂</div><div class="num green" id="engCatCount">7</div><div class="label">分类</div></div>
+        <div class="stat-card"><div class="ico">🔊</div><div class="num red">慢速</div><div class="label">跟读朗读</div></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title"><span class="ico">🔤</span><span>点击卡片听发音，跟读学习</span></div>
+        <div class="divider"></div>
+        <div class="search-box eng-search"><span class="si">🔍</span><input type="text" id="engSearch" placeholder="搜索英文单词..." oninput="filterEng()"><span id="engResultCount" style="font-size:13px;color:var(--text-light);white-space:nowrap">共0条</span></div>
+        <div class="cat-bar" id="engCatBar"></div>
+        <div class="eng-grid" id="engGrid"></div>
+      </div>
+    </div>
   </main>
 </div>
 
@@ -253,6 +286,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   </div>
 </div>
 
+
+<!-- 英语详情弹窗 -->
+<div class="modal-mask" id="engModal">
+  <div class="modal-sheet">
+    <div class="ms-head"><h3>🔤 英语学习</h3><span class="close" onclick="closeModal('engModal')">×</span></div>
+    <div id="engBody"></div>
+  </div>
+</div>
 <!-- 数字大图弹窗 -->
 <div class="modal-mask" id="numModal">
   <div class="modal-sheet">
@@ -378,6 +419,7 @@ function go(name,el){
   if(window.innerWidth<=1024)closeSidebar();
   if(name==='num50')renderNum();
   if(name==='calc')calcMode('learn');
+  if(name==='eng')renderEng();
 }
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show')}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show')}
@@ -647,6 +689,177 @@ function answerCalc(o){
   }else{
     toast('✗ 再想想');
   }
+}
+
+// ============ 英语短句启蒙模块 ============
+const ENG_DATA=[
+  // 一、问候情绪短句
+  {en:"Hello",cn:"你好",emoji:"👋",cat:"短句"},
+  {en:"Hi",cn:"嗨",emoji:"🙂",cat:"短句"},
+  {en:"Good morning",cn:"早上好",emoji:"🌅",cat:"短句"},
+  {en:"Good afternoon",cn:"下午好",emoji:"☀️",cat:"短句"},
+  {en:"Good evening",cn:"晚上好",emoji:"🌆",cat:"短句"},
+  {en:"Good night",cn:"晚安",emoji:"🌙",cat:"短句"},
+  {en:"Goodbye",cn:"再见",emoji:"👋",cat:"短句"},
+  {en:"See you",cn:"回头见",emoji:"🙋",cat:"短句"},
+  {en:"Thank you",cn:"谢谢你",emoji:"🙏",cat:"短句"},
+  {en:"Sorry",cn:"对不起",emoji:"😅",cat:"短句"},
+  {en:"You are welcome",cn:"不客气",emoji:"😊",cat:"短句"},
+  {en:"I'm happy",cn:"我很开心",emoji:"😄",cat:"短句"},
+  {en:"I'm sad",cn:"我难过",emoji:"😢",cat:"短句"},
+  {en:"I'm hungry",cn:"我饿了",emoji:"😋",cat:"短句"},
+  {en:"I'm thirsty",cn:"我渴了",emoji:"🥤",cat:"短句"},
+  {en:"I'm tired",cn:"我累了",emoji:"😴",cat:"短句"},
+  {en:"I love you",cn:"我爱你",emoji:"❤️",cat:"短句"},
+  // 二、动作行为短句
+  {en:"Wash hands",cn:"洗手",emoji:"🧼",cat:"短句"},
+  {en:"Brush teeth",cn:"刷牙",emoji:"🪥",cat:"短句"},
+  {en:"Take a bath",cn:"洗澡",emoji:"🛁",cat:"短句"},
+  {en:"Go to bed",cn:"睡觉",emoji:"🛏️",cat:"短句"},
+  {en:"Get up",cn:"起床",emoji:"⏰",cat:"短句"},
+  {en:"Stand up",cn:"站起来",emoji:"🧍",cat:"短句"},
+  {en:"Sit down",cn:"坐下",emoji:"🪑",cat:"短句"},
+  {en:"Come here",cn:"过来",emoji:"🫳",cat:"短句"},
+  {en:"Let's play",cn:"一起玩吧",emoji:"🎮",cat:"短句"},
+  {en:"Drink water",cn:"喝水",emoji:"💧",cat:"短句"},
+  {en:"Eat fruit",cn:"吃水果",emoji:"🍎",cat:"短句"},
+  // 三、颜色类单词
+  {en:"Red",cn:"红色",emoji:"🔴",cat:"颜色"},
+  {en:"Blue",cn:"蓝色",emoji:"🔵",cat:"颜色"},
+  {en:"Yellow",cn:"黄色",emoji:"🟡",cat:"颜色"},
+  {en:"Green",cn:"绿色",emoji:"🟢",cat:"颜色"},
+  {en:"Orange",cn:"橙色",emoji:"🟠",cat:"颜色"},
+  {en:"Purple",cn:"紫色",emoji:"🟣",cat:"颜色"},
+  {en:"Pink",cn:"粉色",emoji:"🩷",cat:"颜色"},
+  {en:"White",cn:"白色",emoji:"⚪",cat:"颜色"},
+  {en:"Black",cn:"黑色",emoji:"⚫",cat:"颜色"},
+  {en:"Brown",cn:"棕色",emoji:"🟤",cat:"颜色"},
+  // 四、动物类单词
+  {en:"Cat",cn:"小猫",emoji:"🐱",cat:"动物"},
+  {en:"Dog",cn:"小狗",emoji:"🐶",cat:"动物"},
+  {en:"Rabbit",cn:"兔子",emoji:"🐰",cat:"动物"},
+  {en:"Bird",cn:"小鸟",emoji:"🐦",cat:"动物"},
+  {en:"Fish",cn:"小鱼",emoji:"🐟",cat:"动物"},
+  {en:"Panda",cn:"熊猫",emoji:"🐼",cat:"动物"},
+  {en:"Tiger",cn:"老虎",emoji:"🐯",cat:"动物"},
+  {en:"Elephant",cn:"大象",emoji:"🐘",cat:"动物"},
+  {en:"Monkey",cn:"猴子",emoji:"🐵",cat:"动物"},
+  {en:"Duck",cn:"鸭子",emoji:"🦆",cat:"动物"},
+  {en:"Chicken",cn:"小鸡",emoji:"🐤",cat:"动物"},
+  {en:"Sheep",cn:"绵羊",emoji:"🐑",cat:"动物"},
+  // 五、水果蔬菜类
+  {en:"Apple",cn:"苹果",emoji:"🍎",cat:"果蔬"},
+  {en:"Banana",cn:"香蕉",emoji:"🍌",cat:"果蔬"},
+  {en:"Orange",cn:"橙子",emoji:"🍊",cat:"果蔬"},
+  {en:"Pear",cn:"梨",emoji:"🍐",cat:"果蔬"},
+  {en:"Grape",cn:"葡萄",emoji:"🍇",cat:"果蔬"},
+  {en:"Strawberry",cn:"草莓",emoji:"🍓",cat:"果蔬"},
+  {en:"Watermelon",cn:"西瓜",emoji:"🍉",cat:"果蔬"},
+  {en:"Tomato",cn:"西红柿",emoji:"🍅",cat:"果蔬"},
+  {en:"Potato",cn:"土豆",emoji:"🥔",cat:"果蔬"},
+  {en:"Carrot",cn:"胡萝卜",emoji:"🥕",cat:"果蔬"},
+  {en:"Peach",cn:"桃子",emoji:"🍑",cat:"果蔬"},
+  // 六、玩具&物品
+  {en:"Ball",cn:"皮球",emoji:"⚽",cat:"物品"},
+  {en:"Toy car",cn:"玩具车",emoji:"🚗",cat:"物品"},
+  {en:"Doll",cn:"洋娃娃",emoji:"🧸",cat:"物品"},
+  {en:"Block",cn:"积木",emoji:"🧱",cat:"物品"},
+  {en:"Book",cn:"书本",emoji:"📖",cat:"物品"},
+  {en:"Pencil",cn:"铅笔",emoji:"✏️",cat:"物品"},
+  {en:"Bag",cn:"书包",emoji:"🎒",cat:"物品"},
+  {en:"Clock",cn:"时钟",emoji:"🕐",cat:"物品"},
+  {en:"Chair",cn:"椅子",emoji:"🪑",cat:"物品"},
+  {en:"Table",cn:"桌子",emoji:"🪟",cat:"物品"},
+  // 七、交通工具
+  {en:"Car",cn:"小汽车",emoji:"🚗",cat:"交通"},
+  {en:"Bus",cn:"公交车",emoji:"🚌",cat:"交通"},
+  {en:"Train",cn:"火车",emoji:"🚂",cat:"交通"},
+  {en:"Plane",cn:"飞机",emoji:"✈️",cat:"交通"},
+  {en:"Ship",cn:"轮船",emoji:"🚢",cat:"交通"},
+  {en:"Bike",cn:"自行车",emoji:"🚲",cat:"交通"},
+  // 八、人物家人
+  {en:"Mom",cn:"妈妈",emoji:"👩",cat:"家人"},
+  {en:"Dad",cn:"爸爸",emoji:"👨",cat:"家人"},
+  {en:"Grandma",cn:"奶奶",emoji:"👵",cat:"家人"},
+  {en:"Grandpa",cn:"爷爷",emoji:"👴",cat:"家人"},
+  {en:"Baby",cn:"宝宝",emoji:"👶",cat:"家人"},
+  {en:"Boy",cn:"男孩",emoji:"👦",cat:"家人"},
+  {en:"Girl",cn:"女孩",emoji:"👧",cat:"家人"},
+  // 九、食物饮品
+  {en:"Rice",cn:"米饭",emoji:"🍚",cat:"食物"},
+  {en:"Egg",cn:"鸡蛋",emoji:"🥚",cat:"食物"},
+  {en:"Milk",cn:"牛奶",emoji:"🥛",cat:"食物"},
+  {en:"Bread",cn:"面包",emoji:"🍞",cat:"食物"},
+  {en:"Cake",cn:"蛋糕",emoji:"🍰",cat:"食物"},
+  {en:"Juice",cn:"果汁",emoji:"🧃",cat:"食物"},
+  {en:"Noodle",cn:"面条",emoji:"🍜",cat:"食物"},
+];
+const ENG_CATS=['全部','短句','颜色','动物','果蔬','物品','交通','家人','食物'];
+let engCurCat='全部';
+let engCurSearch='';
+function renderEngCatBar(){
+  const bar=document.getElementById('engCatBar');
+  if(!bar)return;
+  bar.innerHTML=ENG_CATS.map((c,i)=>`<div class="cb ${i===0?'active':''}" data-c="${c}" onclick="pickEngCat('${c}')">${c}</div>`).join('');
+}
+function pickEngCat(c){
+  engCurCat=c;
+  document.querySelectorAll('#engCatBar .cb').forEach(b=>b.classList.toggle('active',b.dataset.c===c));
+  filterEng();
+}
+function filterEng(){
+  engCurSearch=(document.getElementById('engSearch').value||'').trim().toLowerCase();
+  renderEngGrid();
+}
+function renderEng(){
+  if(!document.getElementById('engCatBar').children.length)renderEngCatBar();
+  document.getElementById('engTotal').textContent=ENG_DATA.length;
+  renderEngGrid();
+}
+function renderEngGrid(){
+  let arr=ENG_DATA;
+  if(engCurCat!=='全部')arr=arr.filter(w=>w.cat===engCurCat);
+  if(engCurSearch)arr=arr.filter(w=>w.en.toLowerCase().includes(engCurSearch)||w.cn.includes(engCurSearch));
+  const g=document.getElementById('engGrid');
+  document.getElementById('engResultCount').textContent='共'+arr.length+'条';
+  if(!arr.length){
+    g.innerHTML='<div class="empty"><div class="ei">🔍</div><div>没有找到相关内容</div></div>';
+    return;
+  }
+  g.innerHTML=arr.map((w,i)=>(
+    '<div class="eng-card" onclick="openEngDetail('+ENG_DATA.indexOf(w)+')">'+
+      '<div class="ec-cat">'+w.cat+'</div>'+
+      '<div class="ec-emoji">'+w.emoji+'</div>'+
+      '<div class="ec-en">'+w.en+'</div>'+
+      '<div class="ec-cn">'+w.cn+'</div>'+
+      '<div class="ec-read" onclick="event.stopPropagation();speakEng(\''+w.en.replace(/'/g,"\\'")+'\')">🔊</div>'+
+    '</div>'
+  )).join('');
+}
+function speakEng(text){
+  speak(text,'en-US');
+}
+function openEngDetail(idx){
+  const w=ENG_DATA[idx];
+  if(!w)return;
+  document.getElementById('engBody').innerHTML=
+    '<div class="eng-detail-emoji">'+w.emoji+'</div>'+
+    '<div class="eng-detail-en">'+w.en+'</div>'+
+    '<div class="eng-detail-cn">'+w.cn+'</div>'+
+    '<div class="detail-section"><h4>📂 分类</h4><div class="ds-content">'+w.cat+'</div></div>'+
+    '<button class="btn-read" onclick="speakEng(\''+w.en.replace(/'/g,"\\'")+'\')">🔊 慢速朗读</button>'+
+    '<button class="btn-read" style="background:var(--green)" onclick="speakEngSlow(\''+w.en.replace(/'/g,"\\'")+'\')">🐢 超慢朗读</button>';
+  openModal('engModal');
+}
+function speakEngSlow(text){
+  if(!('speechSynthesis' in window)){toast('浏览器不支持朗读');return}
+  stopSpeak();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US';
+  u.rate=0.5;   // 超慢速
+  u.pitch=1.2;
+  u.onend=()=>{};
+  speechSynthesis.speak(u);
 }
 </script>
 </body>
