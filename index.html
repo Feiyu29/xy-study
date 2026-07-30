@@ -7,155 +7,150 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="赫赫学习">
-<title>赫赫小学学习工作台</title>
+<title>赫赫学习工作台</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
 <style>
 :root{
   --primary:#40a3f5;--primary-light:#e8f3fe;--primary-dark:#2e8ad6;
   --yellow:#ffc107;--yellow-light:#fff4cc;
-  --green:#3fb95c;--red:#e7434b;
-  --purple:#9b6ed8;--purple-light:#e9dff9;
+  --green:#3fb95c;--green-light:#dcf7e3;
+  --red:#e7434b;--purple:#9b6ed8;--purple-light:#e9dff9;
+  --orange:#ff9800;--orange-light:#fff3e0;
   --bg:#f5f7fa;--card:#fff;--text:#1f2937;--text-sub:#6b7280;--text-light:#9ca3af;
   --border:#e5e7eb;--shadow:0 2px 10px rgba(0,0,0,.04);--shadow-hover:0 4px 16px rgba(0,0,0,.08);
-  --radius:14px;--radius-sm:10px;--safe-bottom:env(safe-area-inset-bottom,0px);
+  --radius:16px;--radius-sm:12px;--safe-bottom:env(safe-area-inset-bottom,0px);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
-body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:17px}
 
-.topbar{background:var(--primary);height:64px;display:flex;align-items:center;padding:0 24px;position:sticky;top:0;z-index:50;color:#fff;box-shadow:0 2px 8px rgba(64,163,245,.15)}
-.topbar .brand{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:600;min-width:200px}
-.topbar .brand-icon{font-size:26px}
+.topbar{background:var(--primary);height:64px;display:flex;align-items:center;padding:0 20px;position:sticky;top:0;z-index:50;color:#fff;box-shadow:0 2px 8px rgba(64,163,245,.15)}
+.topbar .brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:600;min-width:200px}
+.topbar .brand-icon{font-size:28px}
 .topbar .date{flex:1;text-align:center;font-size:15px;opacity:.95}
-.topbar .sun-btn{background:rgba(255,255,255,.18);padding:8px 16px;border-radius:30px;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600}
-.sun-icon{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#ffd54f,#ff9800)}
+.topbar .sun-btn{background:rgba(255,255,255,.2);padding:8px 16px;border-radius:30px;display:flex;align-items:center;gap:6px;font-size:15px;font-weight:600}
+.sun-icon{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle,#ffd54f,#ff9800);position:relative}
+.sun-icon::after{content:"";position:absolute;inset:-4px;border-radius:50%;background:radial-gradient(circle,rgba(255,193,7,.4),transparent 70%)}
 
 .layout{display:flex;min-height:calc(100vh - 64px)}
-.sidebar{width:230px;background:#fff;border-right:1px solid var(--border);padding:20px 0;flex-shrink:0;position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto}
+.sidebar{width:240px;background:#fff;border-right:1px solid var(--border);padding:20px 0;flex-shrink:0;position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto}
 .sidebar::-webkit-scrollbar{width:6px}
 .sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
-.sb-group{margin-bottom:16px}
-.sb-group-title{padding:8px 24px;font-size:13px;color:var(--text-light);font-weight:600;letter-spacing:.5px}
-.sb-item{display:flex;align-items:center;gap:12px;padding:14px 24px;cursor:pointer;color:var(--text);font-size:16px;border-left:3px solid transparent;transition:all .15s;user-select:none}
+.sb-group-title{padding:10px 24px;font-size:14px;color:var(--text-light);font-weight:600;letter-spacing:.5px}
+.sb-item{display:flex;align-items:center;gap:12px;padding:16px 24px;cursor:pointer;color:var(--text);font-size:17px;border-left:4px solid transparent;transition:all .15s;user-select:none}
 .sb-item:hover{background:var(--primary-light);color:var(--primary-dark)}
-.sb-item .ico{width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.sb-item .ico{width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:22px}
 .sb-item.active{background:var(--yellow-light);color:#e08e00;font-weight:600;border-left-color:var(--yellow)}
-.sb-sub{padding-left:48px;font-size:15px;padding-top:10px;padding-bottom:10px}
-.sb-sub.active{background:var(--yellow-light);color:#e08e00}
 
 .main{flex:1;padding:24px 28px;min-width:0;overflow-x:hidden}
 .scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}
 .scrim.show{display:block}
-.menu-toggle{display:none;margin-right:12px;font-size:22px;cursor:pointer;color:#fff}
+.menu-toggle{display:none;margin-right:12px;font-size:24px;cursor:pointer;color:#fff}
 
-.section-title{display:flex;align-items:center;gap:8px;font-size:22px;font-weight:600;margin-bottom:16px}
-.section-title .ico{font-size:24px}
+.section-title{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:600;margin-bottom:18px}
+.section-title .ico{font-size:26px}
 .cards-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px}
-.stat-card{background:var(--card);border-radius:var(--radius);padding:28px 24px;display:flex;flex-direction:column;align-items:center;box-shadow:var(--shadow);transition:transform .2s}
+.stat-card{background:var(--card);border-radius:var(--radius);padding:24px 20px;display:flex;flex-direction:column;align-items:center;box-shadow:var(--shadow);transition:transform .2s}
 .stat-card:hover{transform:translateY(-2px)}
-.stat-card .ico{font-size:46px;margin-bottom:14px;height:56px;display:flex;align-items:center;justify-content:center}
-.stat-card .num{font-size:48px;font-weight:700;color:var(--yellow);line-height:1.1}
+.stat-card .ico{font-size:42px;margin-bottom:10px;height:48px;display:flex;align-items:center;justify-content:center}
+.stat-card .num{font-size:42px;font-weight:700;color:var(--yellow);line-height:1.1}
 .stat-card .num.green{color:var(--green)}.stat-card .num.red{color:var(--red)}
-.stat-card .label{font-size:14px;color:var(--text-sub);margin-top:6px}
+.stat-card .label{font-size:15px;color:var(--text-sub);margin-top:6px}
 
 .panel{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:20px}
-.panel-title{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:600;margin-bottom:14px}
-.panel-title .ico{font-size:20px}
+.panel-title{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:600;margin-bottom:14px}
+.panel-title .ico{font-size:22px}
 .divider{height:1px;background:var(--border);margin-bottom:18px}
 
-.search-box{display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--border);border-radius:24px;padding:10px 18px;margin-bottom:14px}
+.search-box{display:flex;align-items:center;gap:10px;background:var(--bg);border:1.5px solid var(--border);border-radius:24px;padding:12px 18px;margin-bottom:14px}
 .search-box:focus-within{border-color:var(--primary);background:#fff}
-.search-box .si{color:var(--text-light);font-size:18px}
-.search-box input{flex:1;border:none;background:none;outline:none;font-size:15px}
+.search-box .si{color:var(--text-light);font-size:20px}
+.search-box input{flex:1;border:none;background:none;outline:none;font-size:17px}
 
 .cat-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:14px;scrollbar-width:none}
 .cat-bar::-webkit-scrollbar{display:none}
-.cat-bar .cb{flex-shrink:0;padding:7px 16px;border-radius:18px;background:var(--bg);border:1px solid var(--border);font-size:14px;color:var(--text-sub);cursor:pointer}
+.cat-bar .cb{flex-shrink:0;padding:8px 18px;border-radius:20px;background:var(--bg);border:1.5px solid var(--border);font-size:15px;color:var(--text-sub);cursor:pointer;white-space:nowrap}
 .cat-bar .cb.active{background:var(--purple);color:#fff;border-color:var(--purple)}
 
+/* 古诗卡片 */
 .poem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .poem-card{background:var(--purple-light);border-radius:var(--radius);padding:20px;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative}
 .poem-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(155,110,216,.18)}
-.poem-card.learned{background:#dcf7e3}
+.poem-card.learned{background:var(--green-light)}
 .poem-card .pc-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
-.poem-card .pc-title{font-size:19px;font-weight:700;color:#6d3fb8}
+.poem-card .pc-title{font-size:20px;font-weight:700;color:#6d3fb8}
 .poem-card.learned .pc-title{color:#2e7d3a}
-.poem-card .pc-check{font-size:22px;color:var(--green)}
-.poem-card .pc-author{font-size:14px;color:#8b6dc4;margin-bottom:10px;font-weight:500}
+.poem-card .pc-check{font-size:24px;color:var(--green);cursor:pointer}
+.poem-card .pc-author{font-size:15px;color:#8b6dc4;margin-bottom:10px;font-weight:500}
 .poem-card.learned .pc-author{color:#4a8a52}
-.poem-card .pc-content{font-size:15px;color:#4b5563;line-height:1.8;margin-bottom:12px}
+.poem-card .pc-content{font-size:16px;color:#4b5563;line-height:1.8;margin-bottom:12px}
 .poem-card .pc-foot{display:flex;justify-content:space-between;align-items:center}
 .poem-card .pc-tag{background:rgba(155,110,216,.18);color:#6d3fb8;font-size:13px;padding:4px 12px;border-radius:10px}
 .poem-card.learned .pc-tag{background:rgba(63,185,92,.18);color:#2e7d3a}
-.poem-card .pc-read{background:#fff;color:var(--primary-dark);font-size:13px;padding:5px 12px;border-radius:14px;display:flex;align-items:center;gap:4px}
+.poem-card .pc-read{background:#fff;color:var(--primary-dark);font-size:14px;padding:6px 14px;border-radius:14px;display:flex;align-items:center;gap:4px}
 
-#toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(44,62,45,.95);color:#fff;padding:12px 20px;border-radius:12px;font-size:15px;z-index:9999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:80%;text-align:center}
+/* 英语卡片 */
+.eng-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.eng-card{background:#fff;border-radius:16px;padding:18px 14px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.06);border:2px solid #E8F5E9;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden}
+.eng-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(76,175,80,.15)}
+.eng-card .ec-emoji{font-size:46px;line-height:1;margin-bottom:8px}
+.eng-card .ec-en{font-size:19px;font-weight:700;color:#2E7D32;margin-bottom:4px;line-height:1.3}
+.eng-card .ec-cn{font-size:16px;color:#555;margin-bottom:8px}
+.eng-card .ec-read{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#E8F5E9;color:#2E7D32;font-size:18px}
+.eng-card .ec-cat{position:absolute;top:6px;right:6px;background:rgba(76,175,80,.12);color:#2E7D32;font-size:11px;padding:2px 8px;border-radius:8px}
+
+/* 数学数字卡片 */
+.num-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:16px}
+.num-card{background:#fff;border-radius:16px;padding:20px 14px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.05);border:2px solid #E3F2FD;cursor:pointer;transition:transform .15s}
+.num-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.1)}
+.num-card .nc-big{font-size:56px;font-weight:700;color:#1565C0;line-height:1}
+.num-card .nc-cn{font-size:20px;color:#333;margin:6px 0 2px;font-weight:600}
+.num-card .nc-en{font-size:16px;color:#1565C0;font-style:italic;margin-bottom:10px}
+.num-card .nc-emoji{font-size:22px;letter-spacing:1px;word-break:break-all;line-height:1.4;min-height:34px}
+
+/* 十格阵 */
+.ten-frame{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;background:var(--bg);padding:14px;border-radius:12px;margin:12px 0}
+.tf-cell{aspect-ratio:1;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid var(--border)}
+.tf-cell.filled-a{background:#FFF4D6;border-color:#FFD54F}
+.tf-cell.filled-b{background:#C8E6C9;border-color:#A5D6A7}
+.calc-card{background:#fff;border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:var(--shadow);border:2px solid var(--border)}
+.calc-eq{font-size:36px;font-weight:700;text-align:center;color:var(--primary-dark);margin-bottom:10px}
+.calc-emoji-row{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;font-size:30px;margin:10px 0}
+
+/* 通用按钮 */
+.btn-big{padding:16px;border-radius:30px;font-size:18px;font-weight:600;width:100%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-big:active{transform:scale(.98)}
+.btn-big.ghost{background:var(--primary-light);color:var(--primary-dark)}
+.big-btn-row{display:flex;gap:10px;margin-bottom:16px}
+.big-btn{flex:1;padding:16px;border-radius:30px;font-size:18px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px}
+.big-btn.primary{background:var(--primary);color:#fff}
+.big-btn.outline{background:var(--primary-light);color:var(--primary-dark)}
+.btn-read{background:var(--primary);color:#fff;padding:14px;border-radius:30px;font-size:17px;font-weight:600;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0 16px}
+.btn-read:active{transform:scale(.98);background:var(--primary-dark)}
+.btn-read.reading{background:var(--green)}
+.btn-mark{background:var(--yellow-light);color:#b8860b;padding:14px;border-radius:30px;font-size:17px;font-weight:600;width:100%}
+.btn-mark.learned{background:var(--green-light);color:#2e7d3a}
+
+/* 弹窗 */
+#toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(44,62,45,.95);color:#fff;padding:14px 22px;border-radius:12px;font-size:16px;z-index:9999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:80%;text-align:center}
 #toast.show{opacity:1}
-
 .modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end;justify-content:center}
 .modal-mask.show{display:flex}
 .modal-sheet{background:#fff;width:100%;max-width:640px;border-radius:18px 18px 0 0;padding:20px 20px calc(24px + var(--safe-bottom));max-height:90vh;overflow-y:auto;animation:slideUp .25s ease}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
 .ms-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;position:sticky;top:0;background:#fff;z-index:5;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.ms-head h3{font-size:20px;font-weight:700;color:var(--primary-dark)}
-.ms-head .close{font-size:32px;color:var(--text-light);padding:0 4px;line-height:1}
+.ms-head h3{font-size:22px;font-weight:700;color:var(--primary-dark)}
+.ms-head .close{font-size:36px;color:var(--text-light);padding:0 4px;line-height:1;cursor:pointer}
 
-.detail-title{font-size:26px;font-weight:700;text-align:center;color:var(--primary-dark);margin-bottom:6px}
-.detail-author{text-align:center;font-size:15px;color:var(--text-sub);margin-bottom:18px}
-.detail-pinyin-row{display:flex;flex-wrap:wrap;justify-content:center;background:var(--primary-light);border-radius:var(--radius);padding:18px 12px;margin-bottom:16px}
-.pp-char{display:inline-flex;flex-direction:column;align-items:center;min-width:30px;padding:2px 4px}
-.pp-py{font-size:12px;color:var(--primary-dark);line-height:1.2;margin-bottom:3px;font-style:italic}
-.pp-zi{font-size:22px;color:var(--text);font-weight:500;line-height:1.2}
-.detail-section{margin-bottom:18px}
-.detail-section h4{font-size:15px;color:var(--primary-dark);font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.detail-section .ds-content{font-size:16px;color:var(--text);line-height:1.8;background:var(--bg);padding:14px 16px;border-radius:10px}
-.btn-read{background:var(--primary);color:#fff;padding:14px;border-radius:30px;font-size:16px;font-weight:600;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0 16px}
-.btn-read:active{transform:scale(.98);background:var(--primary-dark)}
-.btn-read.reading{background:var(--green)}
-.btn-mark{background:var(--yellow-light);color:#b8860b;padding:14px;border-radius:30px;font-size:16px;font-weight:600;width:100%}
-.btn-mark.learned{background:#dcf7e3;color:#2e7d3a}
-
-/* 数字1-50 */
-.num-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:16px}
-.num-card{background:#fff;border-radius:16px;padding:20px 14px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.05);border:1.5px solid #E3F2FD;cursor:pointer;transition:transform .15s}
-.num-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.1)}
-.num-card .nc-big{font-size:56px;font-weight:700;color:#1565C0;line-height:1}
-.num-card .nc-cn{font-size:20px;color:#333;margin:6px 0 2px;font-weight:600}
-.num-card .nc-en{font-size:16px;color:#1565C0;font-style:italic;margin-bottom:10px}
-.num-card .nc-emoji{font-size:24px;letter-spacing:1px;word-break:break-all;line-height:1.4;min-height:34px}
-.big-btn-row{display:flex;gap:10px;margin-top:8px}
-.big-btn{flex:1;padding:14px;border-radius:30px;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px}
-.big-btn.primary{background:var(--primary);color:#fff}
-.big-btn.outline{background:var(--primary-light);color:var(--primary-dark)}
-
-/* 加减法十格阵 */
-.ten-frame{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;background:var(--bg);padding:14px;border-radius:12px;margin:12px 0}
-.tf-cell{aspect-ratio:1;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;border:1.5px solid var(--border)}
-.tf-cell.filled-a{background:#FFF4D6;border-color:#FFD54F}
-.tf-cell.filled-b{background:#C8E6C9;border-color:#A5D6A7}
-.calc-card{background:#fff;border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:var(--shadow);border:1.5px solid var(--border)}
-.calc-eq{font-size:36px;font-weight:700;text-align:center;color:var(--primary-dark);margin-bottom:10px}
-.calc-emoji-row{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;font-size:30px;margin:10px 0}
-
-/* 英语启蒙卡片 */
-.eng-search{margin-bottom:14px}
-.eng-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.eng-card{background:#fff;border-radius:16px;padding:16px 12px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.06);border:1.5px solid #E8F5E9;cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative;overflow:hidden}
-.eng-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(76,175,80,.15)}
-.eng-card .ec-emoji{font-size:42px;line-height:1;margin-bottom:8px}
-.eng-card .ec-en{font-size:18px;font-weight:700;color:#2E7D32;margin-bottom:4px;line-height:1.3}
-.eng-card .ec-cn{font-size:15px;color:#555;margin-bottom:8px}
-.eng-card .ec-read{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#E8F5E9;color:#2E7D32;font-size:16px}
-.eng-card .ec-cat{position:absolute;top:6px;right:6px;background:rgba(76,175,80,.12);color:#2E7D32;font-size:10px;padding:2px 8px;border-radius:8px}
 .eng-detail-emoji{font-size:80px;text-align:center;margin:10px 0 16px}
-.eng-detail-en{font-size:26px;font-weight:700;color:#2E7D32;text-align:center;margin-bottom:6px}
-.eng-detail-cn{font-size:18px;color:#666;text-align:center;margin-bottom:16px}
-
-
-/* 大按钮通用 */
-.btn-big{padding:16px;border-radius:30px;font-size:18px;font-weight:600;width:100%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-big:active{transform:scale(.98)}
-.btn-big.ghost{background:var(--primary-light);color:var(--primary-dark)}
+.eng-detail-en{font-size:28px;font-weight:700;color:#2E7D32;text-align:center;margin-bottom:6px}
+.eng-detail-cn{font-size:20px;color:#666;text-align:center;margin-bottom:16px}
+.detail-section{margin-bottom:18px}
+.detail-section h4{font-size:16px;color:var(--primary-dark);font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.detail-section .ds-content{font-size:17px;color:var(--text);line-height:1.8;background:var(--bg);padding:14px 16px;border-radius:10px}
 
 .page{display:none}
 .page.active{display:block;animation:fadein .25s ease}
@@ -163,32 +158,30 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .empty{text-align:center;padding:40px 20px;color:var(--text-light)}
 .empty .ei{font-size:42px;margin-bottom:8px;opacity:.5}
 
-@media (max-width:1024px){
-  .sidebar{position:fixed;left:-230px;top:64px;z-index:95;transition:left .25s;box-shadow:2px 0 12px rgba(0,0,0,.08)}
+@media(max-width:1024px){
+  .sidebar{position:fixed;left:-240px;top:64px;z-index:95;transition:left .25s;box-shadow:2px 0 12px rgba(0,0,0,.08)}
   .sidebar.open{left:0}
   .menu-toggle{display:block}
   .main{padding:20px}
 }
-@media (max-width:640px){
-  body{font-size:15px}
+@media(max-width:640px){
+  body{font-size:16px}
   .topbar{padding:0 14px;height:56px}
-  .topbar .brand{font-size:16px;min-width:auto}
-  .topbar .brand-icon{font-size:22px}
+  .topbar .brand{font-size:17px;min-width:auto}
+  .topbar .brand-icon{font-size:24px}
   .topbar .date{display:none}
-  .topbar .sun-btn{padding:6px 12px;font-size:13px}
+  .topbar .sun-btn{padding:6px 12px;font-size:14px}
   .layout{min-height:calc(100vh - 56px)}
-  .sidebar{top:56px;height:calc(100vh - 56px);width:200px}
+  .sidebar{top:56px;height:calc(100vh - 56px);width:210px}
   .main{padding:16px 14px}
-  .section-title{font-size:19px}
+  .section-title{font-size:20px}
   .cards-row{grid-template-columns:1fr;gap:12px;margin-bottom:20px}
-  .stat-card{padding:20px;flex-direction:row;justify-content:space-between;gap:14px}
+  .stat-card{padding:18px;flex-direction:row;justify-content:space-between;gap:14px}
   .stat-card .ico{font-size:32px;margin-bottom:0;height:auto}
   .stat-card .num{font-size:32px}
   .poem-grid,.num-grid,.eng-grid{grid-template-columns:1fr;gap:12px}
   .poem-card{padding:16px}
-  .poem-card .pc-title{font-size:17px}
-  .detail-title{font-size:22px}
-  .pp-zi{font-size:20px}
+  .poem-card .pc-title{font-size:18px}
   .calc-eq{font-size:28px}
   .tf-cell{font-size:24px}
 }
@@ -198,20 +191,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 <header class="topbar">
   <span class="menu-toggle" onclick="toggleSidebar()">☰</span>
-  <div class="brand"><span class="brand-icon">🌻</span><span>赫赫小学学习工作台</span></div>
+  <div class="brand"><span class="brand-icon">🌻</span><span>赫赫学习工作台</span></div>
   <div class="date" id="topDate">--</div>
-  <div class="sun-btn"><span class="sun-icon"></span><span>0 阳光</span></div>
+  <div class="sun-btn"><span class="sun-icon"></span><span id="sunPoints">0 阳光</span></div>
 </header>
 
 <div class="layout">
   <aside class="sidebar" id="sidebar">
-    <div class="sb-group">
-      <div class="sb-group-title">学习天地</div>
-      <div class="sb-item" data-page="poem" onclick="go('poem',this)"><span class="ico">📜</span><span>古诗100首</span></div>
-      <div class="sb-item" data-page="num50" onclick="go('num50',this)"><span class="ico">🔢</span><span>认识数字1-50</span></div>
-      <div class="sb-item" data-page="calc" onclick="go('calc',this)"><span class="ico">➕</span><span>10以内加减法</span></div>
-      <div class="sb-item" data-page="eng" onclick="go('eng',this)"><span class="ico">🔤</span><span>英语短句启蒙</span></div>
-    </div>
+    <div class="sb-group-title">学习天地</div>
+    <div class="sb-item active" data-page="poem" onclick="go('poem',this)"><span class="ico">📜</span><span>古诗100首</span></div>
+    <div class="sb-item" data-page="eng" onclick="go('eng',this)"><span class="ico">🔤</span><span>英语启蒙</span></div>
+    <div class="sb-item" data-page="math" onclick="go('math',this)"><span class="ico">🔢</span><span>数学天地</span></div>
   </aside>
   <div class="scrim" id="scrim" onclick="closeSidebar()"></div>
 
@@ -227,65 +217,42 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
       <div class="panel">
         <div class="panel-title"><span class="ico">📜</span><span>幼儿园必学古诗100首</span></div>
         <div class="divider"></div>
-        <div class="search-box"><span class="si">🔍</span><input type="text" id="searchInput" placeholder="搜索诗名或作者..." oninput="filterPoems()"><span id="resultCount" style="font-size:13px;color:var(--text-light);white-space:nowrap">共100首</span></div>
+        <div class="search-box"><span class="si">🔍</span><input type="text" id="searchInput" placeholder="搜索诗名或作者..." oninput="filterPoems()"><span id="resultCount" style="font-size:14px;color:var(--text-light);white-space:nowrap">共100首</span></div>
         <div class="cat-bar" id="catBar"></div>
         <div class="poem-grid" id="poemGrid"></div>
       </div>
     </div>
 
-    <!-- 认识数字1-50 -->
-    <div class="page" id="page-num50">
-      <div class="section-title"><span class="ico">🔢</span><span>认识数字 1-50</span></div>
-      <div class="panel">
-        <div class="panel-title"><span class="ico">🔢</span><span>点击数字听读音，跟读学习</span></div>
-        <div class="divider"></div>
-        <div class="num-grid" id="numGrid"></div>
-        <div class="big-btn-row">
-          <button class="big-btn primary" onclick="numSeqPlay()">▶️ 顺序跟读</button>
-          <button class="big-btn outline" onclick="numRandomGame()">🎲 随机翻卡</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 10以内加减法 -->
-    <div class="page" id="page-calc">
-      <div class="section-title"><span class="ico">➕</span><span>10以内图文加减法</span></div>
-      <div class="big-btn-row" style="margin-bottom:16px">
-        <button class="big-btn primary" id="calcModeLearn" onclick="calcMode('learn')">📖 看图学习</button>
-        <button class="big-btn outline" id="calcModeQuiz" onclick="calcMode('quiz')">🎲 随机出题</button>
-      </div>
-      <div id="calcBox"></div>
-    </div>
-
-    <!-- 英语短句启蒙 -->
+    <!-- 英语启蒙 -->
     <div class="page" id="page-eng">
-      <div class="section-title"><span class="ico">🔤</span><span>英语短句启蒙</span></div>
+      <div class="section-title"><span class="ico">🔤</span><span>英语启蒙</span></div>
       <div class="cards-row">
         <div class="stat-card"><div class="ico">🔤</div><div class="num" id="engTotal">0</div><div class="label">单词短句</div></div>
-        <div class="stat-card"><div class="ico">📂</div><div class="num green" id="engCatCount">7</div><div class="label">分类</div></div>
+        <div class="stat-card"><div class="ico">📂</div><div class="num green">13</div><div class="label">分类</div></div>
         <div class="stat-card"><div class="ico">🔊</div><div class="num red">慢速</div><div class="label">跟读朗读</div></div>
       </div>
       <div class="panel">
         <div class="panel-title"><span class="ico">🔤</span><span>点击卡片听发音，跟读学习</span></div>
         <div class="divider"></div>
-        <div class="search-box eng-search"><span class="si">🔍</span><input type="text" id="engSearch" placeholder="搜索英文单词..." oninput="filterEng()"><span id="engResultCount" style="font-size:13px;color:var(--text-light);white-space:nowrap">共0条</span></div>
+        <div class="search-box"><span class="si">🔍</span><input type="text" id="engSearch" placeholder="搜索英文单词..." oninput="filterEng()"><span id="engResultCount" style="font-size:14px;color:var(--text-light);white-space:nowrap">共0条</span></div>
         <div class="cat-bar" id="engCatBar"></div>
         <div class="eng-grid" id="engGrid"></div>
       </div>
+    </div>
+
+    <!-- 数学天地 -->
+    <div class="page" id="page-math">
+      <div class="section-title"><span class="ico">🔢</span><span>数学天地</span></div>
+      <div class="big-btn-row">
+        <button class="big-btn primary" id="mathModeNum" onclick="mathMode('num')">🔢 认识数字1-50</button>
+        <button class="big-btn outline" id="mathModeCalc" onclick="mathMode('calc')">➕ 1-10图文加减法</button>
+      </div>
+      <div id="mathBox"></div>
     </div>
   </main>
 </div>
 
 <div id="toast"></div>
-
-<!-- 古诗详情弹窗 -->
-<div class="modal-mask" id="detailModal">
-  <div class="modal-sheet">
-    <div class="ms-head"><h3>📖 古诗详情</h3><span class="close" onclick="closeModal('detailModal')">×</span></div>
-    <div id="detailBody"></div>
-  </div>
-</div>
-
 
 <!-- 英语详情弹窗 -->
 <div class="modal-mask" id="engModal">
@@ -294,29 +261,54 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     <div id="engBody"></div>
   </div>
 </div>
-<!-- 数字大图弹窗 -->
-<div class="modal-mask" id="numModal">
-  <div class="modal-sheet">
-    <div class="ms-head"><h3>🔢 数字学习</h3><span class="close" onclick="closeModal('numModal')">×</span></div>
-    <div id="numBody"></div>
-  </div>
-</div>
 
 <script>
-// ====== 版本自动刷新机制（解决iOS PWA缓存） ======
-(function(){
-  var CUR_VER='20260730b'; // 当前版本号，每次更新递增
-  var stored=localStorage.getItem('xy_ver');
-  if(stored && stored!==CUR_VER){
-    localStorage.setItem('xy_ver',CUR_VER);
-    if(caches){caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k)})})}
-    location.reload(true);
-    return;
-  }
-  localStorage.setItem('xy_ver',CUR_VER);
-})();
-const POEMS = [
-{n:1,title:"咏鹅",author:"骆宾王",pinyin:"yǒng é",content:"鹅鹅鹅，曲项向天歌。白毛浮绿水，红掌拨清波。",pinyinChars:["é","é","é","qū","xiàng","xiàng","tiān","gē","bái","máo","fú","lǜ","shuǐ","hóng","zhǎng","bō","qīng","bō"],translate:"大白鹅呀大白鹅，弯着脖子向天唱歌。洁白的羽毛浮在绿水上，红色的脚掌拨动着清澈的水波。",appreciation:"这首诗以儿童的眼光观察鹅的形态与动作，色彩鲜明，动静结合，是骆宾王七岁时的作品。",authorIntro:"骆宾王（约640-684），唐代诗人，'初唐四杰'之一，七岁能诗。",tag:"动物"},
+// 版本自动刷新
+(function(){var V='20260730c';var S=localStorage.getItem('xy_ver');if(S&&S!==V){localStorage.setItem('xy_ver',V);if(caches)caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k)})});location.reload(true);return}localStorage.setItem('xy_ver',V)})();
+
+// ====== 朗读引擎（慢速+停顿，适合低龄跟读）======
+let speaking=false;
+function speak(text,lang,onEnd){
+  if(!('speechSynthesis' in window)){toast('浏览器不支持朗读');return}
+  stopSpeak();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=lang||'zh-CN';
+  u.rate=0.6;   // 超慢速
+  u.pitch=1.1;
+  u.onend=()=>{speaking=false;if(onEnd)onEnd()};
+  u.onerror=()=>{speaking=false};
+  speechSynthesis.speak(u);
+  speaking=true;
+}
+function stopSpeak(){if('speechSynthesis' in window){speechSynthesis.cancel()}speaking=false}
+
+// ====== 页面切换 ======
+function go(name,el){
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  if(el)el.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  window.scrollTo(0,0);
+  if(window.innerWidth<=1024)closeSidebar();
+  if(name==='poem')renderPoems();
+  if(name==='eng')renderEng();
+  if(name==='math')mathMode('num');
+}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show')}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show')}
+function openModal(id){document.getElementById(id).classList.add('show')}
+function closeModal(id){document.getElementById(id).classList.remove('show');stopSpeak()}
+document.querySelectorAll('.modal-mask').forEach(m=>m.addEventListener('click',e=>{if(e.target===m){m.classList.remove('show');stopSpeak()}}));
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800)}
+
+// ====== 初始化 ======
+document.getElementById('topDate').textContent=new Date().toLocaleDateString('zh-CN',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+let sunPoints=parseInt(localStorage.getItem('xy_sun')||'0');
+document.getElementById('sunPoints').textContent=sunPoints+' 阳光';
+function addSun(n){sunPoints+=n;localStorage.setItem('xy_sun',sunPoints);document.getElementById('sunPoints').textContent=sunPoints+' 阳光'}
+
+// ====== 古诗模块 ======
+const POEMS = [{n:1,title:"咏鹅",author:"骆宾王",pinyin:"yǒng é",content:"鹅鹅鹅，曲项向天歌。白毛浮绿水，红掌拨清波。",pinyinChars:["é","é","é","qū","xiàng","xiàng","tiān","gē","bái","máo","fú","lǜ","shuǐ","hóng","zhǎng","bō","qīng","bō"],translate:"大白鹅呀大白鹅，弯着脖子向天唱歌。洁白的羽毛浮在绿水上，红色的脚掌拨动着清澈的水波。",appreciation:"这首诗以儿童的眼光观察鹅的形态与动作，色彩鲜明，动静结合，是骆宾王七岁时的作品。",authorIntro:"骆宾王（约640-684），唐代诗人，'初唐四杰'之一，七岁能诗。",tag:"动物"},
 {n:2,title:"春晓",author:"孟浩然",pinyin:"chūn xiǎo",content:"春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。",pinyinChars:["chūn","mián","bù","jué","xiǎo","chù","chù","wén","tí","niǎo","yè","lái","fēng","yǔ","shēng","huā","luò","zhī","duō","shǎo"],translate:"春日酣睡不知不觉天已破晓，到处都能听到鸟儿啼叫。昨夜风声雨声不断，不知有多少花瓣被吹落？",appreciation:"诗人寥寥数语勾勒春晨的慵懒与生机，'花落知多少'含惜春之情。",authorIntro:"孟浩然（689-740），唐代山水田园诗人，与王维并称'王孟'。",tag:"春天"},
 {n:3,title:"静夜思",author:"李白",pinyin:"jìng yè sī",content:"床前明月光，疑是地上霜。举头望明月，低头思故乡。",pinyinChars:["chuáng","qián","míng","yuè","guāng","yí","shì","dì","shàng","shuāng","jǔ","tóu","wàng","míng","yuè","dī","tóu","sī","gù","xiāng"],translate:"床前洒满明亮月光，怀疑是地上结了一层霜。抬头望着明月，低头思念远方的故乡。",appreciation:"以'明月'与'霜'互喻，营造清冷孤寂的意境，'举头'与'低头'写出游子思乡心绪。",authorIntro:"李白（701-762），唐代伟大浪漫主义诗人，被誉为'诗仙'。",tag:"思乡"},
 {n:4,title:"悯农",author:"李绅",pinyin:"mǐn nóng",content:"锄禾日当午，汗滴禾下土。谁知盘中餐，粒粒皆辛苦。",pinyinChars:["chú","hé","rì","dāng","wǔ","hàn","dī","hé","xià","tǔ","shuí","zhī","pán","zhōng","cān","lì","lì","jiē","xīn","kǔ"],translate:"正午烈日下农民给禾苗锄草，汗水滴落在禾苗下的泥土里。有谁知道盘中的饭食，每一粒都饱含农民的辛劳。",appreciation:"以朴素语言再现农民劳作之苦，'粒粒皆辛苦'劝人珍惜粮食。",authorIntro:"李绅（772-846），唐代诗人，新乐府运动倡导者之一。",tag:"感恩"},
@@ -416,54 +408,13 @@ const POEMS = [
 {n:98,title:"寒食",author:"韩翃",pinyin:"hán shí",content:"春城无处不飞花，寒食东风御柳斜。日暮汉宫传蜡烛，轻烟散入五侯家。",pinyinChars:["chūn","chéng","wú","chù","bù","fēi","huā","hán","shí","dōng","fēng","yù","liǔ","xié","rì","mù","hàn","gōng","chuán","là","zhú","qīng","yān","sàn","rù","wǔ","hóu","jiā"],translate:"春城无处不飞花，寒食东风吹斜御柳。日暮汉宫传赐蜡烛，轻烟散入五侯之家。",appreciation:"'春城无处不飞花'写出寒食的春景，'轻烟散入'暗含讽意。",authorIntro:"韩翃（生卒年不详），字君平，唐代诗人。",tag:"春天"},
 {n:99,title:"滁州西涧其二",author:"韦应物",pinyin:"chú zhōu xī jiàn qí èr",content:"独怜幽草涧边生，上有黄鹂深树鸣。春潮带雨晚来急，野渡无人舟自横。",pinyinChars:["dú","lián","yōu","cǎo","jiàn","biān","shēng","shàng","yǒu","huáng","lí","shēn","shù","míng","chūn","cháo","dài","yǔ","wǎn","lái","jí","yě","dù","wú","rén","zhōu","zì","héng"],translate:"独爱涧边生长的幽草，树深处有黄鹂鸣叫。春潮带雨傍晚来得急，野渡无人小船独自横着。",appreciation:"'野渡无人舟自横'写出闲适的意境，富有画意。",authorIntro:"韦应物（737-792），唐代诗人，诗风淡雅。",tag:"春天"},
 {n:100,title:"登飞来峰",author:"王安石",pinyin:"dēng fēi lái fēng",content:"飞来山上千寻塔，闻说鸡鸣见日升。不畏浮云遮望眼，自缘身在最高层。",pinyinChars:["fēi","lái","shān","shàng","qiān","xún","tǎ","wén","shuō","jī","míng","jiàn","rì","shēng","bù","wèi","fú","yún","zhē","wàng","yǎn","zì","yuán","shēn","zài","zuì","gāo","céng"],translate:"飞来山上有千寻高塔，听说鸡鸣时可见日出。不怕浮云遮住远望的视线，只因为身在最高层。",appreciation:"'不畏浮云遮望眼，自缘身在最高层'蕴含站得高看得远的哲理。",authorIntro:"王安石（1021-1086），北宋政治家、文学家。",tag:"励志"}
-];
+]
 
-const wk=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
-const d=new Date();
-document.getElementById('topDate').textContent=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 ${wk[d.getDay()]}`;
-
-function go(name,el){
-  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
-  if(el)el.classList.add('active');
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  window.scrollTo(0,0);
-  if(window.innerWidth<=1024)closeSidebar();
-  if(name==='num50')renderNum();
-  if(name==='calc')calcMode('learn');
-  if(name==='eng')renderEng();
-}
-function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show')}
-function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show')}
-function openModal(id){document.getElementById(id).classList.add('show')}
-function closeModal(id){document.getElementById(id).classList.remove('show');stopSpeak()}
-document.querySelectorAll('.modal-mask').forEach(m=>m.addEventListener('click',e=>{if(e.target===m){m.classList.remove('show');stopSpeak()}}));
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800)}
-
-// ============ 朗读引擎（慢速儿童友好）============
-let speaking=false;
-function speak(text, lang, onEnd){
-  if(!('speechSynthesis' in window)){toast('浏览器不支持朗读');return}
-  stopSpeak();
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang=lang||'zh-CN';
-  u.rate=0.7;   // 慢速
-  u.pitch=1.1;  // 略高音调，更亲切
-  u.onend=()=>{speaking=false;if(onEnd)onEnd()};
-  u.onerror=()=>{speaking=false};
-  speechSynthesis.speak(u);
-  speaking=true;
-}
-function stopSpeak(){if('speechSynthesis' in window){speechSynthesis.cancel()}speaking=false}
-
-// ============ 古诗模块 ============
 let learned=JSON.parse(localStorage.getItem('xy_learned_v1')||'{}');
 function saveLearned(){localStorage.setItem('xy_learned_v1',JSON.stringify(learned))}
 let curCat='全部';
-const CATS=['全部','春天','夏天','秋天','冬天','山水','田园','思乡','送别','边塞','怀古','忧国','咏物','励志','感恩','哲理','春节','动物','咏怀'];
-function renderCatBar(){
-  document.getElementById('catBar').innerHTML=CATS.map((c,i)=>`<div class="cb ${i===0?'active':''}" data-c="${i===0?'全部':c}" onclick="pickCat('${i===0?'全部':c}')">${c}</div>`).join('');
-}
+const CATS=['全部','春天','夏天','秋天','冬天','山水','田园','思乡','送别','边塞','怀古','忧国','咏物','励志','感恩','哲理','春节','动物'];
+function renderCatBar(){document.getElementById('catBar').innerHTML=CATS.map((c,i)=>`<div class="cb ${i===0?'active':''}" data-c="${c}" onclick="pickCat('${c}')">${c}</div>`).join('')}
 function pickCat(c){curCat=c;document.querySelectorAll('.cat-bar .cb').forEach(b=>b.classList.toggle('active',b.dataset.c===c));filterPoems()}
 function filterPoems(){
   const kw=(document.getElementById('searchInput').value||'').trim().toLowerCase();
@@ -471,241 +422,42 @@ function filterPoems(){
   if(curCat!=='全部')arr=arr.filter(p=>p.tag===curCat);
   if(kw)arr=arr.filter(p=>p.title.includes(kw)||p.author.toLowerCase().includes(kw)||p.tag.includes(kw));
   renderPoems(arr);
+  document.getElementById('resultCount').textContent='共'+arr.length+'首';
 }
 function renderPoems(list){
+  if(!list)list=POEMS;
   const g=document.getElementById('poemGrid');
   if(!list.length){g.innerHTML='<div class="empty"><div class="ei">🔍</div><div>没有找到相关古诗</div></div>';return}
   g.innerHTML=list.map(p=>{
-    const lk=!!learned[p.n];
-    return '<div class="poem-card '+(lk?'learned':'')+'" onclick="openDetail('+p.n+')">'+
-      '<div class="pc-head"><div class="pc-title">'+p.n+'. '+p.title+'</div>'+(lk?'<div class="pc-check">✅</div>':'')+'</div>'+
-      '<div class="pc-author">【'+p.author+'】</div>'+
-      '<div class="pc-content">'+p.content+'</div>'+
-      '<div class="pc-foot"><span class="pc-tag">'+p.tag+'</span><span class="pc-read" onclick="event.stopPropagation();readPoemQuick('+p.n+')">🔊 朗读</span></div>'+
-    '</div>';
+    const isL=learned[p.n];
+    return `<div class="poem-card ${isL?'learned':''}" onclick="toggleLearn(${p.n})">
+      <div class="pc-head"><div class="pc-title">${p.n}. ${p.title}</div><div class="pc-check">${isL?'✅':'⬜'}</div></div>
+      <div class="pc-author">${p.author}</div>
+      <div class="pc-content">${p.content}</div>
+      <div class="pc-foot">
+        <span class="pc-tag">${p.tag}</span>
+        <span class="pc-read" onclick="event.stopPropagation();readPoem(${p.n})">🔊 朗读</span>
+      </div>
+    </div>`;
   }).join('');
-  document.getElementById('resultCount').textContent='共'+list.length+'首';
+  const cnt=Object.keys(learned).filter(k=>learned[k]).length;
+  document.getElementById('learnedCount').textContent=cnt;
+  document.getElementById('progressPct').textContent=Math.round(cnt/100*100)+'%';
 }
-function updateStats(){
-  const c=Object.keys(learned).filter(k=>learned[k]).length;
-  document.getElementById('learnedCount').textContent=c;
-  document.getElementById('progressPct').textContent=Math.round(c/100*100)+'%';
-}
-let curDetail=null;
-function openDetail(n){
-  const p=POEMS.find(x=>x.n===n);if(!p)return;
-  curDetail=p;
-  const chars=p.content.split('');
-  const charHtml=chars.map((c,i)=>{
-    const py=p.pinyinChars?(p.pinyinChars[i]||''):'';
-    return '<span class="pp-char"><span class="pp-py">'+py+'</span><span class="pp-zi">'+c+'</span></span>';
-  }).join('');
-  const lk=!!learned[n];
-  document.getElementById('detailBody').innerHTML=
-    '<div class="detail-title">'+p.title+'</div>'+
-    '<div class="detail-author">【'+p.author+'】</div>'+
-    '<div class="detail-pinyin-row">'+charHtml+'</div>'+
-    '<button class="btn-read" id="readBtn" onclick="togglePoemRead()">🔊 朗读全诗</button>'+
-    '<div class="detail-section"><h4>📝 译文</h4><div class="ds-content">'+(p.translate||'暂无')+'</div></div>'+
-    '<div class="detail-section"><h4>💡 赏析</h4><div class="ds-content">'+(p.appreciation||'暂无')+'</div></div>'+
-    '<div class="detail-section"><h4>👤 作者介绍</h4><div class="ds-content">'+(p.authorIntro||'暂无')+'</div></div>'+
-    '<button class="btn-mark '+(lk?'learned':'')+'" onclick="toggleLearn()">'+(lk?'✅ 已学习，点击取消':'⭐ 标记为已学')+'</button>';
-  openModal('detailModal');
-}
-function togglePoemRead(){
-  if(speaking){stopSpeak();document.getElementById('readBtn').textContent='🔊 朗读全诗';return}
-  if(!curDetail)return;
-  const btn=document.getElementById('readBtn');
-  speak(curDetail.title+'，'+curDetail.author+'。'+curDetail.content,'zh-CN',()=>{
-    btn.textContent='🔊 朗读全诗';btn.classList.remove('reading');
-  });
-  btn.textContent='⏸️ 停止';btn.classList.add('reading');
-}
-function readPoemQuick(n){
-  const p=POEMS.find(x=>x.n===n);if(!p)return;
-  speak(p.title+'，'+p.author+'。'+p.content,'zh-CN');
-  toast('🔊 正在朗读：'+p.title);
-}
-function toggleLearn(){
-  if(!curDetail)return;
-  const n=curDetail.n;
-  if(learned[n]){delete learned[n];toast('已取消学习')}
-  else{learned[n]=new Date().toISOString().slice(0,10);toast('✓ 已标记学习，加油！')}
-  saveLearned();updateStats();
-  const btn=document.querySelector('.btn-mark');
-  const lk=!!learned[n];
-  btn.classList.toggle('learned',lk);
-  btn.textContent=lk?'✅ 已学习，点击取消':'⭐ 标记为已学';
+function toggleLearn(n){
+  if(learned[n]){learned[n]=false;toast('取消标记')}
+  else{learned[n]=true;toast('✅ 已学习！');addSun(5)}
+  saveLearned();
   filterPoems();
 }
-renderCatBar();renderPoems(POEMS);updateStats();
-
-// ============ 认识数字1-50 ============
-const CN_NUM=['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十','二十一','二十二','二十三','二十四','二十五','二十六','二十七','二十八','二十九','三十','三十一','三十二','三十三','三十四','三十五','三十六','三十七','三十八','三十九','四十','四十一','四十二','四十三','四十四','四十五','四十六','四十七','四十八','四十九','五十'];
-const EN_NUM=['one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty','twenty-one','twenty-two','twenty-three','twenty-four','twenty-five','twenty-six','twenty-seven','twenty-eight','twenty-nine','thirty','thirty-one','thirty-two','thirty-three','thirty-four','thirty-five','thirty-six','thirty-seven','thirty-eight','thirty-nine','forty','forty-one','forty-two','forty-three','forty-four','forty-five','forty-six','forty-seven','forty-eight','forty-nine','fifty'];
-const NUM_EMOJI=['🍎','🐱','⭐','🌸','🎈','🍓','🌷','🐠','🦋','🚗','🍋','🐶','🌈','🐰','🌟','🍉','🐦','🌺','🍃','🐻','🍒','🍑','🥕','🍀','🐬','🐞','🐌','🐢','🦊','🐼','🐨','🦁','🐮','🐷','🐸','🐵','🐔','🐧','🦄','🐝','🐞','🦋','🐢','🐬','🐳','🐊','🐸','🐍','🐉','🦕'];
-let numRendered=false;
-function renderNum(){
-  if(numRendered)return;numRendered=true;
-  document.getElementById('numGrid').innerHTML=[...Array(50)].map((_,i)=>{
-    const n=i+1;
-    return '<div class="num-card" onclick="openNum('+i+')">'+
-      '<div class="nc-big">'+n+'</div>'+
-      '<div class="nc-cn">'+CN_NUM[i]+'</div>'+
-      '<div class="nc-en">'+EN_NUM[i]+'</div>'+
-      '<div class="nc-emoji">'+NUM_EMOJI[i].repeat(Math.min(n,10))+(n>10?' …×'+n:'')+'</div>'+
-    '</div>';
-  }).join('');
-}
-function openNum(i){
-  const n=i+1;
-  document.getElementById('numBody').innerHTML=
-    '<div style="text-align:center;padding:20px">'+
-      '<div style="font-size:96px;font-weight:700;color:#1565C0;line-height:1">'+n+'</div>'+
-      '<div style="font-size:32px;margin:10px 0">'+CN_NUM[i]+'</div>'+
-      '<div style="font-size:24px;color:#1565C0;font-style:italic;margin-bottom:16px">'+EN_NUM[i]+'</div>'+
-      '<div style="font-size:40px;letter-spacing:4px">'+NUM_EMOJI[i].repeat(Math.min(n,12))+(n>12?' …共'+n:'')+'</div>'+
-      '<button class="btn-read" onclick="readNum('+i+')">🔊 听读音跟读</button>'+
-    '</div>';
-  openModal('numModal');
-  readNum(i);
-}
-function readNum(i){
-  const n=i+1;
-  speak(EN_NUM[i]+' ... '+CN_NUM[i],'zh-CN');
-}
-let numSeqIdx=0,numSeqTimer=null;
-function numSeqPlay(){
-  if(numSeqTimer){clearInterval(numSeqTimer);numSeqTimer=null;toast('已停止');return}
-  numSeqIdx=0;
-  toast('▶️ 开始顺序跟读，点击此处可停止');
-  openNum(0);
-  numSeqTimer=setInterval(()=>{
-    numSeqIdx++;
-    if(numSeqIdx>=50){clearInterval(numSeqTimer);numSeqTimer=null;toast('🎉 全部读完啦！');return}
-    openNum(numSeqIdx);
-  },2200);
-}
-function numRandomGame(){
-  const idx=Math.floor(Math.random()*50);
-  const n=idx+1;
-  const opts=[...new Set([n,Math.min(50,n+1),Math.max(1,n-1),Math.floor(Math.random()*50)+1])].slice(0,4).sort(()=>Math.random()-0.5);
-  document.getElementById('numBody').innerHTML=
-    '<div style="text-align:center;padding:20px">'+
-      '<div style="font-size:28px;margin-bottom:10px">🎲 这是几？</div>'+
-      '<div style="font-size:48px;letter-spacing:4px;margin-bottom:24px">'+NUM_EMOJI[idx].repeat(Math.min(n,10))+'</div>'+
-      '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">'+
-        opts.map(o=>'<button class="big-btn '+(o===n?'':'ghost')+'" onclick="answerNum('+o+','+n+')">'+o+'</button>').join('')+
-      '</div>'+
-      '<button class="btn-read" style="margin-top:16px" onclick="readNum('+idx+')">🔊 听读音</button>'+
-    '</div>';
-  openModal('numModal');
-}
-function answerNum(o,n){
-  if(o===n){toast('✓ 答对了！是'+n);setTimeout(numRandomGame,1200)}
-  else{toast('✗ 再数一数')}
+function readPoem(n){
+  const p=POEMS.find(x=>x.n===n);
+  if(!p)return;
+  speak(p.content,'zh-CN');
 }
 
-// ============ 10以内加减法 ============
-const CALC_EMOJI=['🍎','🍓','🌸','⭐','🐠','🎈','🐯','🍋'];
-let calcCurMode='learn';
-function calcMode(m){
-  calcCurMode=m;
-  document.getElementById('calcModeLearn').className='big-btn '+(m==='learn'?'primary':'outline');
-  document.getElementById('calcModeQuiz').className='big-btn '+(m==='quiz'?'primary':'outline');
-  if(m==='learn')renderCalcLearn();
-  else renderCalcQuiz();
-}
-function renderCalcLearn(){
-  // 列出所有10以内加法和减法示例
-  const items=[];
-  for(let a=1;a<=5;a++)for(let b=1;b<=5&&a+b<=10;b++)items.push({op:'+',a,b,r:a+b});
-  for(let a=2;a<=10;a++)for(let b=1;b<a;b++)items.push({op:'-',a,b,r:a-b});
-  const sel=items.filter((_,i)=>i%3===0).slice(0,12); // 取12个示例
-  document.getElementById('calcBox').innerHTML=sel.map((it,i)=>calcCard(it,i)).join('');
-}
-function calcCard(it,i){
-  const em=CALC_EMOJI[i%CALC_EMOJI.length];
-  // 十格阵
-  let cells='';
-  for(let k=0;k<10;k++){
-    let cls='';
-    if(k<it.a)cls='filled-a';
-    else if(k<it.a+it.b && it.op==='+')cls='filled-b';
-    else if(k<it.a-it.b && it.op==='-')cls='filled-a';
-    cells+='<div class="tf-cell '+cls+'">'+(cls?em:'')+'</div>';
-  }
-  // 图文行
-  let emojiRow='';
-  if(it.op==='+'){
-    emojiRow=em.repeat(it.a)+' + '+em.repeat(it.b)+' = '+em.repeat(it.r);
-  }else{
-    emojiRow=em.repeat(it.a)+' − ('+em.repeat(it.b)+') = '+em.repeat(it.r);
-  }
-  const eq=it.a+(it.op==='+'?' + ':' − ')+it.b+' = '+it.r;
-  return '<div class="calc-card">'+
-    '<div class="calc-eq">'+eq+'</div>'+
-    '<div class="calc-emoji-row">'+emojiRow+'</div>'+
-    '<div class="ten-frame">'+cells+'</div>'+
-    '<button class="btn-read" onclick="readCalc('+it.a+',\''+it.op+'\','+it.b+','+it.r+')">🔊 朗读算式</button>'+
-  '</div>';
-}
-function readCalc(a,op,b,r){
-  const opStr=op==='+'?'加':'减';
-  const eqStr=a+' '+opStr+' '+b+' 等于 '+r;
-  speak(eqStr,'zh-CN');
-}
-let quizCur=null;
-function renderCalcQuiz(){
-  const a=Math.floor(Math.random()*9)+1;
-  const b=Math.floor(Math.random()*9)+1;
-  let op,q,ans;
-  if(Math.random()>0.5){op='+';ans=a+b;if(ans>10)return renderCalcQuiz();q=a+' + '+b+' = ?'}
-  else{if(a<b)return renderCalcQuiz();op='-';ans=a-b;q=a+' − '+b+' = ?'}
-  quizCur={a,op,b,r:ans};
-  const em=CALC_EMOJI[Math.floor(Math.random()*CALC_EMOJI.length)];
-  let cells='';
-  for(let k=0;k<10;k++){
-    let cls='';
-    if(k<a)cls='filled-a';
-    else if(k<a+b&&op==='+')cls='filled-b';
-    else if(k<a-b&&op==='-')cls='filled-a';
-    cells+='<div class="tf-cell '+cls+'">'+(cls?em:'')+'</div>';
-  }
-  let emojiRow='';
-  if(op==='+')emojiRow=em.repeat(a)+' + '+em.repeat(b);
-  else emojiRow=em.repeat(a)+' − ('+em.repeat(b)+')';
-  const opts=[...new Set([ans,Math.max(0,ans-1),ans+1,Math.max(0,ans-2)])].slice(0,4).sort(()=>Math.random()-0.5);
-  document.getElementById('calcBox').innerHTML=
-    '<div class="calc-card">'+
-      '<div class="calc-eq">'+q+'</div>'+
-      '<div class="calc-emoji-row">'+emojiRow+'</div>'+
-      '<div class="ten-frame">'+cells+'</div>'+
-      '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">'+
-        opts.map(o=>'<button class="big-btn ghost" onclick="answerCalc('+o+')">'+o+'</button>').join('')+
-      '</div>'+
-      '<button class="btn-read" style="margin-top:14px" onclick="readCalcQuiz()">🔊 听题目</button>'+
-    '</div>';
-}
-function readCalcQuiz(){
-  if(!quizCur)return;
-  const q=quizCur.a+' '+(quizCur.op==='+'?'加':'减')+' '+quizCur.b+' 等于几';
-  speak(q,'zh-CN');
-}
-function answerCalc(o){
-  if(!quizCur)return;
-  if(o===quizCur.r){
-    toast('✓ 答对了！');
-    speak(quizCur.a+' '+(quizCur.op==='+'?'加':'减')+' '+quizCur.b+' 等于 '+quizCur.r,'zh-CN');
-    setTimeout(renderCalcQuiz,1800);
-  }else{
-    toast('✗ 再想想');
-  }
-}
-
-// ============ 英语短句启蒙模块 ============
+// ====== 英语启蒙模块 ======
 const ENG_DATA=[
-  // 一、问候情绪短句
   {en:"Hello",cn:"你好",emoji:"👋",cat:"短句"},
   {en:"Hi",cn:"嗨",emoji:"🙂",cat:"短句"},
   {en:"Good morning",cn:"早上好",emoji:"🌅",cat:"短句"},
@@ -714,16 +466,22 @@ const ENG_DATA=[
   {en:"Good night",cn:"晚安",emoji:"🌙",cat:"短句"},
   {en:"Goodbye",cn:"再见",emoji:"👋",cat:"短句"},
   {en:"See you",cn:"回头见",emoji:"🙋",cat:"短句"},
+  {en:"See you tomorrow",cn:"明天见",emoji:"📅",cat:"短句"},
   {en:"Thank you",cn:"谢谢你",emoji:"🙏",cat:"短句"},
   {en:"Sorry",cn:"对不起",emoji:"😅",cat:"短句"},
   {en:"You are welcome",cn:"不客气",emoji:"😊",cat:"短句"},
-  {en:"I'm happy",cn:"我很开心",emoji:"😄",cat:"短句"},
-  {en:"I'm sad",cn:"我难过",emoji:"😢",cat:"短句"},
-  {en:"I'm hungry",cn:"我饿了",emoji:"😋",cat:"短句"},
-  {en:"I'm thirsty",cn:"我渴了",emoji:"🥤",cat:"短句"},
-  {en:"I'm tired",cn:"我累了",emoji:"😴",cat:"短句"},
+  {en:"No thanks",cn:"不用了，谢谢",emoji:"🙅",cat:"短句"},
+  {en:"Yes",cn:"是的",emoji:"✅",cat:"短句"},
+  {en:"No",cn:"不是",emoji:"❌",cat:"短句"},
+  {en:"I\'m happy",cn:"我很开心",emoji:"😄",cat:"短句"},
+  {en:"I\'m sad",cn:"我难过",emoji:"😢",cat:"短句"},
+  {en:"I\'m angry",cn:"我生气",emoji:"😠",cat:"短句"},
+  {en:"I\'m hungry",cn:"我饿了",emoji:"😋",cat:"短句"},
+  {en:"I\'m thirsty",cn:"我渴了",emoji:"🥤",cat:"短句"},
+  {en:"I\'m tired",cn:"我累了",emoji:"😴",cat:"短句"},
   {en:"I love you",cn:"我爱你",emoji:"❤️",cat:"短句"},
-  // 二、动作行为短句
+  {en:"I like it",cn:"我喜欢",emoji:"👍",cat:"短句"},
+  {en:"I don\'t like it",cn:"我不喜欢",emoji:"👎",cat:"短句"},
   {en:"Wash hands",cn:"洗手",emoji:"🧼",cat:"短句"},
   {en:"Brush teeth",cn:"刷牙",emoji:"🪥",cat:"短句"},
   {en:"Take a bath",cn:"洗澡",emoji:"🛁",cat:"短句"},
@@ -732,10 +490,13 @@ const ENG_DATA=[
   {en:"Stand up",cn:"站起来",emoji:"🧍",cat:"短句"},
   {en:"Sit down",cn:"坐下",emoji:"🪑",cat:"短句"},
   {en:"Come here",cn:"过来",emoji:"🫳",cat:"短句"},
-  {en:"Let's play",cn:"一起玩吧",emoji:"🎮",cat:"短句"},
+  {en:"Go away",cn:"走开",emoji:"🚶",cat:"短句"},
+  {en:"Let\'s play",cn:"一起玩吧",emoji:"🎮",cat:"短句"},
   {en:"Drink water",cn:"喝水",emoji:"💧",cat:"短句"},
   {en:"Eat fruit",cn:"吃水果",emoji:"🍎",cat:"短句"},
-  // 三、颜色类单词
+  {en:"Be quiet",cn:"安静一点",emoji:"🤫",cat:"短句"},
+  {en:"Help me",cn:"帮帮我",emoji:"🆘",cat:"短句"},
+  {en:"Wait a minute",cn:"等一下",emoji:"⏳",cat:"短句"},
   {en:"Red",cn:"红色",emoji:"🔴",cat:"颜色"},
   {en:"Blue",cn:"蓝色",emoji:"🔵",cat:"颜色"},
   {en:"Yellow",cn:"黄色",emoji:"🟡",cat:"颜色"},
@@ -746,7 +507,7 @@ const ENG_DATA=[
   {en:"White",cn:"白色",emoji:"⚪",cat:"颜色"},
   {en:"Black",cn:"黑色",emoji:"⚫",cat:"颜色"},
   {en:"Brown",cn:"棕色",emoji:"🟤",cat:"颜色"},
-  // 四、动物类单词
+  {en:"Grey",cn:"灰色",emoji:"🩶",cat:"颜色"},
   {en:"Cat",cn:"小猫",emoji:"🐱",cat:"动物"},
   {en:"Dog",cn:"小狗",emoji:"🐶",cat:"动物"},
   {en:"Rabbit",cn:"兔子",emoji:"🐰",cat:"动物"},
@@ -759,7 +520,12 @@ const ENG_DATA=[
   {en:"Duck",cn:"鸭子",emoji:"🦆",cat:"动物"},
   {en:"Chicken",cn:"小鸡",emoji:"🐤",cat:"动物"},
   {en:"Sheep",cn:"绵羊",emoji:"🐑",cat:"动物"},
-  // 五、水果蔬菜类
+  {en:"Cow",cn:"奶牛",emoji:"🐄",cat:"动物"},
+  {en:"Horse",cn:"马",emoji:"🐴",cat:"动物"},
+  {en:"Snake",cn:"蛇",emoji:"🐍",cat:"动物"},
+  {en:"Butterfly",cn:"蝴蝶",emoji:"🦋",cat:"动物"},
+  {en:"Bee",cn:"蜜蜂",emoji:"🐝",cat:"动物"},
+  {en:"Squirrel",cn:"松鼠",emoji:"🐿️",cat:"动物"},
   {en:"Apple",cn:"苹果",emoji:"🍎",cat:"果蔬"},
   {en:"Banana",cn:"香蕉",emoji:"🍌",cat:"果蔬"},
   {en:"Orange",cn:"橙子",emoji:"🍊",cat:"果蔬"},
@@ -771,7 +537,11 @@ const ENG_DATA=[
   {en:"Potato",cn:"土豆",emoji:"🥔",cat:"果蔬"},
   {en:"Carrot",cn:"胡萝卜",emoji:"🥕",cat:"果蔬"},
   {en:"Peach",cn:"桃子",emoji:"🍑",cat:"果蔬"},
-  // 六、玩具&物品
+  {en:"Mango",cn:"芒果",emoji:"🫳",cat:"果蔬"},
+  {en:"Pineapple",cn:"菠萝",emoji:"🍍",cat:"果蔬"},
+  {en:"Lemon",cn:"柠檬",emoji:"🍋",cat:"果蔬"},
+  {en:"Cucumber",cn:"黄瓜",emoji:"🥒",cat:"果蔬"},
+  {en:"Corn",cn:"玉米",emoji:"🌽",cat:"果蔬"},
   {en:"Ball",cn:"皮球",emoji:"⚽",cat:"物品"},
   {en:"Toy car",cn:"玩具车",emoji:"🚗",cat:"物品"},
   {en:"Doll",cn:"洋娃娃",emoji:"🧸",cat:"物品"},
@@ -782,14 +552,22 @@ const ENG_DATA=[
   {en:"Clock",cn:"时钟",emoji:"🕐",cat:"物品"},
   {en:"Chair",cn:"椅子",emoji:"🪑",cat:"物品"},
   {en:"Table",cn:"桌子",emoji:"🪟",cat:"物品"},
-  // 七、交通工具
+  {en:"Ruler",cn:"尺子",emoji:"📏",cat:"物品"},
+  {en:"Eraser",cn:"橡皮",emoji:"🧽",cat:"物品"},
+  {en:"Crayon",cn:"蜡笔",emoji:"🖍️",cat:"物品"},
+  {en:"Balloon",cn:"气球",emoji:"🎈",cat:"物品"},
+  {en:"Train toy",cn:"玩具火车",emoji:"🚂",cat:"物品"},
+  {en:"Kite",cn:"风筝",emoji:"🪁",cat:"物品"},
   {en:"Car",cn:"小汽车",emoji:"🚗",cat:"交通"},
   {en:"Bus",cn:"公交车",emoji:"🚌",cat:"交通"},
   {en:"Train",cn:"火车",emoji:"🚂",cat:"交通"},
   {en:"Plane",cn:"飞机",emoji:"✈️",cat:"交通"},
   {en:"Ship",cn:"轮船",emoji:"🚢",cat:"交通"},
   {en:"Bike",cn:"自行车",emoji:"🚲",cat:"交通"},
-  // 八、人物家人
+  {en:"Motorcycle",cn:"摩托车",emoji:"🏍️",cat:"交通"},
+  {en:"Subway",cn:"地铁",emoji:"🚇",cat:"交通"},
+  {en:"Ambulance",cn:"救护车",emoji:"🚑",cat:"交通"},
+  {en:"Fire truck",cn:"消防车",emoji:"🚒",cat:"交通"},
   {en:"Mom",cn:"妈妈",emoji:"👩",cat:"家人"},
   {en:"Dad",cn:"爸爸",emoji:"👨",cat:"家人"},
   {en:"Grandma",cn:"奶奶",emoji:"👵",cat:"家人"},
@@ -797,7 +575,10 @@ const ENG_DATA=[
   {en:"Baby",cn:"宝宝",emoji:"👶",cat:"家人"},
   {en:"Boy",cn:"男孩",emoji:"👦",cat:"家人"},
   {en:"Girl",cn:"女孩",emoji:"👧",cat:"家人"},
-  // 九、食物饮品
+  {en:"Teacher",cn:"老师",emoji:"👩‍🏫",cat:"家人"},
+  {en:"Friend",cn:"朋友",emoji:"🤝",cat:"家人"},
+  {en:"Doctor",cn:"医生",emoji:"👨‍⚕️",cat:"家人"},
+  {en:"Police",cn:"警察",emoji:"👮",cat:"家人"},
   {en:"Rice",cn:"米饭",emoji:"🍚",cat:"食物"},
   {en:"Egg",cn:"鸡蛋",emoji:"🥚",cat:"食物"},
   {en:"Milk",cn:"牛奶",emoji:"🥛",cat:"食物"},
@@ -805,24 +586,77 @@ const ENG_DATA=[
   {en:"Cake",cn:"蛋糕",emoji:"🍰",cat:"食物"},
   {en:"Juice",cn:"果汁",emoji:"🧃",cat:"食物"},
   {en:"Noodle",cn:"面条",emoji:"🍜",cat:"食物"},
+  {en:"Ice cream",cn:"冰淇淋",emoji:"🍨",cat:"食物"},
+  {en:"Chocolate",cn:"巧克力",emoji:"🍫",cat:"食物"},
+  {en:"Soup",cn:"汤",emoji:"🍲",cat:"食物"},
+  {en:"Hamburger",cn:"汉堡",emoji:"🍔",cat:"食物"},
+  {en:"Eye",cn:"眼睛",emoji:"👁️",cat:"身体"},
+  {en:"Ear",cn:"耳朵",emoji:"👂",cat:"身体"},
+  {en:"Nose",cn:"鼻子",emoji:"👃",cat:"身体"},
+  {en:"Mouth",cn:"嘴巴",emoji:"👄",cat:"身体"},
+  {en:"Hand",cn:"小手",emoji:"✋",cat:"身体"},
+  {en:"Foot",cn:"小脚",emoji:"🦶",cat:"身体"},
+  {en:"Arm",cn:"手臂",emoji:"💪",cat:"身体"},
+  {en:"Leg",cn:"腿",emoji:"🦵",cat:"身体"},
+  {en:"Head",cn:"头",emoji:"🗣️",cat:"身体"},
+  {en:"Hair",cn:"头发",emoji:"💇",cat:"身体"},
+  {en:"Face",cn:"脸蛋",emoji:"😊",cat:"身体"},
+  {en:"Finger",cn:"手指",emoji:"👆",cat:"身体"},
+  {en:"Sun",cn:"太阳",emoji:"☀️",cat:"天气"},
+  {en:"Rain",cn:"雨",emoji:"🌧️",cat:"天气"},
+  {en:"Wind",cn:"风",emoji:"💨",cat:"天气"},
+  {en:"Snow",cn:"雪",emoji:"❄️",cat:"天气"},
+  {en:"Cloud",cn:"云朵",emoji:"☁️",cat:"天气"},
+  {en:"Spring",cn:"春天",emoji:"🌱",cat:"天气"},
+  {en:"Summer",cn:"夏天",emoji:"🌞",cat:"天气"},
+  {en:"Autumn",cn:"秋天",emoji:"🍂",cat:"天气"},
+  {en:"Winter",cn:"冬天",emoji:"⛄",cat:"天气"},
+  {en:"Monday",cn:"星期一",emoji:"📅",cat:"星期"},
+  {en:"Tuesday",cn:"星期二",emoji:"📅",cat:"星期"},
+  {en:"Wednesday",cn:"星期三",emoji:"📅",cat:"星期"},
+  {en:"Thursday",cn:"星期四",emoji:"📅",cat:"星期"},
+  {en:"Friday",cn:"星期五",emoji:"📅",cat:"星期"},
+  {en:"Saturday",cn:"星期六",emoji:"📅",cat:"星期"},
+  {en:"Sunday",cn:"星期日",emoji:"📅",cat:"星期"},
+  {en:"January",cn:"一月",emoji:"📅",cat:"月份"},
+  {en:"February",cn:"二月",emoji:"📅",cat:"月份"},
+  {en:"March",cn:"三月",emoji:"📅",cat:"月份"},
+  {en:"April",cn:"四月",emoji:"📅",cat:"月份"},
+  {en:"May",cn:"五月",emoji:"📅",cat:"月份"},
+  {en:"June",cn:"六月",emoji:"📅",cat:"月份"},
+  {en:"July",cn:"七月",emoji:"📅",cat:"月份"},
+  {en:"August",cn:"八月",emoji:"📅",cat:"月份"},
+  {en:"September",cn:"九月",emoji:"📅",cat:"月份"},
+  {en:"October",cn:"十月",emoji:"📅",cat:"月份"},
+  {en:"November",cn:"十一月",emoji:"📅",cat:"月份"},
+  {en:"December",cn:"十二月",emoji:"📅",cat:"月份"},
+  {en:"One",cn:"1",emoji:"1️⃣",cat:"数字"},
+  {en:"Two",cn:"2",emoji:"2️⃣",cat:"数字"},
+  {en:"Three",cn:"3",emoji:"3️⃣",cat:"数字"},
+  {en:"Four",cn:"4",emoji:"4️⃣",cat:"数字"},
+  {en:"Five",cn:"5",emoji:"5️⃣",cat:"数字"},
+  {en:"Six",cn:"6",emoji:"6️⃣",cat:"数字"},
+  {en:"Seven",cn:"7",emoji:"7️⃣",cat:"数字"},
+  {en:"Eight",cn:"8",emoji:"8️⃣",cat:"数字"},
+  {en:"Nine",cn:"9",emoji:"9️⃣",cat:"数字"},
+  {en:"Ten",cn:"10",emoji:"🔟",cat:"数字"},
+  {en:"Eleven",cn:"11",emoji:"🔢",cat:"数字"},
+  {en:"Twelve",cn:"12",emoji:"🔢",cat:"数字"},
+  {en:"Thirteen",cn:"13",emoji:"🔢",cat:"数字"},
+  {en:"Fourteen",cn:"14",emoji:"🔢",cat:"数字"},
+  {en:"Fifteen",cn:"15",emoji:"🔢",cat:"数字"},
+  {en:"Sixteen",cn:"16",emoji:"🔢",cat:"数字"},
+  {en:"Seventeen",cn:"17",emoji:"🔢",cat:"数字"},
+  {en:"Eighteen",cn:"18",emoji:"🔢",cat:"数字"},
+  {en:"Nineteen",cn:"19",emoji:"🔢",cat:"数字"},
+  {en:"Twenty",cn:"20",emoji:"🔢",cat:"数字"}
 ];
-const ENG_CATS=['全部','短句','颜色','动物','果蔬','物品','交通','家人','食物'];
+const ENG_CATS=['全部','短句','颜色','动物','果蔬','物品','交通','家人','食物','身体','天气','星期','月份','数字'];
 let engCurCat='全部';
 let engCurSearch='';
-function renderEngCatBar(){
-  const bar=document.getElementById('engCatBar');
-  if(!bar)return;
-  bar.innerHTML=ENG_CATS.map((c,i)=>`<div class="cb ${i===0?'active':''}" data-c="${c}" onclick="pickEngCat('${c}')">${c}</div>`).join('');
-}
-function pickEngCat(c){
-  engCurCat=c;
-  document.querySelectorAll('#engCatBar .cb').forEach(b=>b.classList.toggle('active',b.dataset.c===c));
-  filterEng();
-}
-function filterEng(){
-  engCurSearch=(document.getElementById('engSearch').value||'').trim().toLowerCase();
-  renderEngGrid();
-}
+function renderEngCatBar(){document.getElementById('engCatBar').innerHTML=ENG_CATS.map((c,i)=>`<div class="cb ${i===0?'active':''}" data-c="${c}" onclick="pickEngCat('${c}')">${c}</div>`).join('')}
+function pickEngCat(c){engCurCat=c;document.querySelectorAll('#engCatBar .cb').forEach(b=>b.classList.toggle('active',b.dataset.c===c));filterEng()}
+function filterEng(){engCurSearch=(document.getElementById('engSearch').value||'').trim().toLowerCase();renderEngGrid()}
 function renderEng(){
   if(!document.getElementById('engCatBar').children.length)renderEngCatBar();
   document.getElementById('engTotal').textContent=ENG_DATA.length;
@@ -834,45 +668,274 @@ function renderEngGrid(){
   if(engCurSearch)arr=arr.filter(w=>w.en.toLowerCase().includes(engCurSearch)||w.cn.includes(engCurSearch));
   const g=document.getElementById('engGrid');
   document.getElementById('engResultCount').textContent='共'+arr.length+'条';
-  if(!arr.length){
-    g.innerHTML='<div class="empty"><div class="ei">🔍</div><div>没有找到相关内容</div></div>';
-    return;
-  }
-  g.innerHTML=arr.map((w,i)=>(
-    '<div class="eng-card" onclick="openEngDetail('+ENG_DATA.indexOf(w)+')">'+
-      '<div class="ec-cat">'+w.cat+'</div>'+
-      '<div class="ec-emoji">'+w.emoji+'</div>'+
-      '<div class="ec-en">'+w.en+'</div>'+
-      '<div class="ec-cn">'+w.cn+'</div>'+
-      '<div class="ec-read" onclick="event.stopPropagation();speakEng(\''+w.en.replace(/'/g,"\\'")+'\')">🔊</div>'+
-    '</div>'
-  )).join('');
+  if(!arr.length){g.innerHTML='<div class="empty"><div class="ei">🔍</div><div>没有找到相关内容</div></div>';return}
+  g.innerHTML=arr.map((w,i)=>{
+    const idx=ENG_DATA.indexOf(w);
+    const enSafe=w.en.replace(/'/g,"\'");
+    return `<div class="eng-card" onclick="openEngDetail(${idx})">
+      <div class="ec-cat">${w.cat}</div>
+      <div class="ec-emoji">${w.emoji}</div>
+      <div class="ec-en">${w.en}</div>
+      <div class="ec-cn">${w.cn}</div>
+      <div class="ec-read" onclick="event.stopPropagation();speakEng('${enSafe}')">🔊</div>
+    </div>`;
+  }).join('');
 }
-function speakEng(text){
-  speak(text,'en-US');
-}
+function speakEng(text){speak(text,'en-US')}
 function openEngDetail(idx){
   const w=ENG_DATA[idx];
   if(!w)return;
+  const enSafe=w.en.replace(/'/g,"\'");
   document.getElementById('engBody').innerHTML=
     '<div class="eng-detail-emoji">'+w.emoji+'</div>'+
     '<div class="eng-detail-en">'+w.en+'</div>'+
     '<div class="eng-detail-cn">'+w.cn+'</div>'+
     '<div class="detail-section"><h4>📂 分类</h4><div class="ds-content">'+w.cat+'</div></div>'+
-    '<button class="btn-read" onclick="speakEng(\''+w.en.replace(/'/g,"\\'")+'\')">🔊 慢速朗读</button>'+
-    '<button class="btn-read" style="background:var(--green)" onclick="speakEngSlow(\''+w.en.replace(/'/g,"\\'")+'\')">🐢 超慢朗读</button>';
+    '<button class="btn-read" onclick="speakEng(\''+enSafe+'\')">🔊 慢速朗读</button>'+
+    '<button class="btn-read" style="background:var(--green)" onclick="speakEngSlow(\''+enSafe+'\')">🐢 超慢朗读</button>';
   openModal('engModal');
 }
 function speakEngSlow(text){
   if(!('speechSynthesis' in window)){toast('浏览器不支持朗读');return}
   stopSpeak();
   const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-US';
-  u.rate=0.5;   // 超慢速
-  u.pitch=1.2;
-  u.onend=()=>{};
+  u.lang='en-US';u.rate=0.4;u.pitch=1.2;
   speechSynthesis.speak(u);
 }
+
+// ====== 数学天地模块 ======
+const NUM_DATA=[
+  {n:1,cn:"一",en:"one",item:"苹果",emoji:"🍎",clf:"个"},
+  {n:2,cn:"二",en:"two",item:"鸭子",emoji:"🦆",clf:"个"},
+  {n:3,cn:"三",en:"three",item:"星星",emoji:"⭐",clf:"颗"},
+  {n:4,cn:"四",en:"four",item:"花朵",emoji:"🌸",clf:"片"},
+  {n:5,cn:"五",en:"five",item:"蝴蝶",emoji:"🦋",clf:"只"},
+  {n:6,cn:"六",en:"six",item:"气球",emoji:"🎈",clf:"个"},
+  {n:7,cn:"七",en:"seven",item:"小鱼",emoji:"🐟",clf:"只"},
+  {n:8,cn:"八",en:"eight",item:"树叶",emoji:"🍃",clf:"片"},
+  {n:9,cn:"九",en:"nine",item:"糖果",emoji:"🍬",clf:"颗"},
+  {n:10,cn:"十",en:"ten",item:"小鸟",emoji:"🐦",clf:"只"},
+  {n:11,cn:"十一",en:"eleven",item:"蘑菇",emoji:"🍄",clf:"个"},
+  {n:12,cn:"十二",en:"twelve",item:"月亮",emoji:"🌙",clf:"个"},
+  {n:13,cn:"十三",en:"thirteen",item:"太阳",emoji:"☀️",clf:"个"},
+  {n:14,cn:"十四",en:"fourteen",item:"雨滴",emoji:"💧",clf:"片"},
+  {n:15,cn:"十五",en:"fifteen",item:"雪花",emoji:"❄️",clf:"片"},
+  {n:16,cn:"十六",en:"sixteen",item:"彩虹",emoji:"🌈",clf:"个"},
+  {n:17,cn:"十七",en:"seventeen",item:"贝壳",emoji:"🐚",clf:"只"},
+  {n:18,cn:"十八",en:"eighteen",item:"蝌蚪",emoji:"🐸",clf:"只"},
+  {n:19,cn:"十九",en:"nineteen",item:"蜜蜂",emoji:"🐝",clf:"只"},
+  {n:20,cn:"二十",en:"twenty",item:"蚂蚁",emoji:"🐜",clf:"只"},
+  {n:21,cn:"二十一",en:"twenty-one",item:"西瓜",emoji:"🍉",clf:"个"},
+  {n:22,cn:"二十二",en:"twenty-two",item:"草莓",emoji:"🍓",clf:"个"},
+  {n:23,cn:"二十三",en:"twenty-three",item:"葡萄",emoji:"🍇",clf:"个"},
+  {n:24,cn:"二十四",en:"twenty-four",item:"樱桃",emoji:"🍒",clf:"个"},
+  {n:25,cn:"二十五",en:"twenty-five",item:"柠檬",emoji:"🍋",clf:"个"},
+  {n:26,cn:"二十六",en:"twenty-six",item:"桃子",emoji:"🍑",clf:"个"},
+  {n:27,cn:"二十七",en:"twenty-seven",item:"梨子",emoji:"🍐",clf:"个"},
+  {n:28,cn:"二十八",en:"twenty-eight",item:"橘子",emoji:"🍊",clf:"个"},
+  {n:29,cn:"二十九",en:"twenty-nine",item:"香蕉",emoji:"🍌",clf:"个"},
+  {n:30,cn:"三十",en:"thirty",item:"辣椒",emoji:"🌶️",clf:"个"},
+  {n:31,cn:"三十一",en:"thirty-one",item:"胡萝卜",emoji:"🥕",clf:"个"},
+  {n:32,cn:"三十二",en:"thirty-two",item:"西红柿",emoji:"🍅",clf:"个"},
+  {n:33,cn:"三十三",en:"thirty-three",item:"土豆",emoji:"🥔",clf:"个"},
+  {n:34,cn:"三十四",en:"thirty-four",item:"玉米",emoji:"🌽",clf:"个"},
+  {n:35,cn:"三十五",en:"thirty-five",item:"南瓜",emoji:"🎃",clf:"个"},
+  {n:36,cn:"三十六",en:"thirty-six",item:"茄子",emoji:"🍆",clf:"个"},
+  {n:37,cn:"三十七",en:"thirty-seven",item:"洋葱",emoji:"🧅",clf:"颗"},
+  {n:38,cn:"三十八",en:"thirty-eight",item:"大蒜",emoji:"🧄",clf:"颗"},
+  {n:39,cn:"三十九",en:"thirty-nine",item:"花生",emoji:"🥜",clf:"颗"},
+  {n:40,cn:"四十",en:"forty",item:"红枣",emoji:"🌴",clf:"颗"},
+  {n:41,cn:"四十一",en:"forty-one",item:"饼干",emoji:"🍪",clf:"颗"},
+  {n:42,cn:"四十二",en:"forty-two",item:"蛋糕",emoji:"🍰",clf:"块"},
+  {n:43,cn:"四十三",en:"forty-three",item:"甜甜圈",emoji:"🍩",clf:"颗"},
+  {n:44,cn:"四十四",en:"forty-four",item:"巧克力",emoji:"🍫",clf:"块"},
+  {n:45,cn:"四十五",en:"forty-five",item:"棒棒糖",emoji:"🍭",clf:"颗"},
+  {n:46,cn:"四十六",en:"forty-six",item:"果汁",emoji:"🧃",clf:"碗"},
+  {n:47,cn:"四十七",en:"forty-seven",item:"牛奶",emoji:"🥛",clf:"碗"},
+  {n:48,cn:"四十八",en:"forty-eight",item:"面包",emoji:"🍞",clf:"块"},
+  {n:49,cn:"四十九",en:"forty-nine",item:"米饭",emoji:"🍚",clf:"碗"},
+  {n:50,cn:"五十",en:"fifty",item:"面条",emoji:"🍜",clf:"碗"}
+];
+const CALC_EMOJI=['🍎','🍓','🌸','⭐','🐠','🎈','🐯','🍋','🦋','🐧'];
+let mathCurMode='';
+function mathMode(m){
+  mathCurMode=m;
+  document.getElementById('mathModeNum').className='big-btn '+(m==='num'?'primary':'outline');
+  document.getElementById('mathModeCalc').className='big-btn '+(m==='calc'?'primary':'outline');
+  if(m==='num')renderNum();
+  else calcMode('learn');
+}
+function renderNum(){
+  document.getElementById('mathBox').innerHTML=
+    '<div class="panel"><div class="panel-title"><span class="ico">🔢</span><span>认识数字 1-50</span></div><div class="divider"></div>'+
+    '<div class="num-grid" id="numGrid"></div>'+
+    '<div class="big-btn-row">'+
+      '<button class="big-btn primary" onclick="numSeqPlay()">▶️ 顺序跟读</button>'+
+      '<button class="big-btn outline" onclick="numRandomGame()">🎲 随机翻卡</button>'+
+    '</div></div>';
+  document.getElementById('numGrid').innerHTML=NUM_DATA.map(d=>{
+    const emojis=d.emoji.repeat(d.n).slice(0,d.n*4);
+    return `<div class="num-card" onclick="readNum(${d.n})">
+      <div class="nc-big">${d.n}</div>
+      <div class="nc-cn">${d.cn}</div>
+      <div class="nc-en">${d.en}</div>
+      <div class="nc-emoji">${d.emoji.repeat(Math.min(d.n,10))}</div>
+    </div>`;
+  }).join('');
+}
+function readNum(n){
+  const d=NUM_DATA.find(x=>x.n===n);
+  if(!d)return;
+  const text=`${d.n}，${d.clf}${d.item}；${d.en}`;
+  speak(text,'zh-CN');
+  toast('🔊 '+text);
+}
+let numSeqIdx=0;let numSeqTimer=null;
+function numSeqPlay(){
+  stopSpeak();
+  if(numSeqTimer){clearTimeout(numSeqTimer);numSeqTimer=null;toast('⏸️ 停止跟读');return}
+  numSeqIdx=0;
+  playNextNum();
+}
+function playNextNum(){
+  if(numSeqIdx>=50){toast('🎉 全部读完了！');numSeqTimer=null;addSun(10);return}
+  const d=NUM_DATA[numSeqIdx];
+  const text=`${d.n}，${d.clf}${d.item}；${d.en}`;
+  speak(text,'zh-CN',()=>{numSeqIdx++;numSeqTimer=setTimeout(playNextNum,800)});
+}
+let numGameIdx=0;
+function numRandomGame(){
+  const shuffled=[...NUM_DATA].sort(()=>Math.random()-0.5);
+  numGameIdx=0;
+  showNumCard(shuffled);
+}
+function showNumCard(arr){
+  const d=arr[numGameIdx];
+  document.getElementById('mathBox').innerHTML=
+    '<div class="panel"><div class="panel-title"><span class="ico">🎲</span><span>随机翻卡 '+(numGameIdx+1)+'/'+arr.length+'</span></div><div class="divider"></div>'+
+    '<div class="num-card" style="cursor:pointer" onclick="readNumCard(\''+JSON.stringify(d).replace(/'/g,"\'").replace(/"/g,'&quot;')+'\')">'+
+      '<div class="nc-big" style="font-size:80px">'+d.n+'</div>'+
+      '<div class="nc-cn" style="font-size:24px">'+d.cn+'</div>'+
+      '<div class="nc-en" style="font-size:20px">'+d.en+'</div>'+
+      '<div class="nc-emoji" style="font-size:28px;margin-top:12px">'+d.emoji.repeat(Math.min(d.n,10))+'</div>'+
+    '</div>'+
+    '<button class="btn-read" onclick="readNumCard(\''+JSON.stringify(d).replace(/'/g,"\'").replace(/"/g,'&quot;')+'\')">🔊 朗读</button>'+
+    '<div class="big-btn-row">'+
+      '<button class="big-btn outline" onclick="numRandomGame()">🔄 换一张</button>'+
+      '<button class="big-btn primary" onclick="mathMode(\'num\')">🔙 返回列表</button>'+
+    '</div></div>';
+  numGameIdx=(numGameIdx+1)%arr.length;
+  // 存储当前数组
+  window._numGameArr=arr;
+}
+function readNumCard(jsonStr){
+  const d=JSON.parse(jsonStr);
+  const text=d.n+'，'+d.clf+d.item+'；'+d.en;
+  speak(text,'zh-CN');
+}
+
+// ====== 加减法模块 ======
+let calcCurMode='learn';
+function calcMode(m){
+  calcCurMode=m;
+  if(m==='learn')renderCalcLearn();
+  else renderCalcQuiz();
+}
+function renderCalcLearn(){
+  const items=[];
+  for(let a=1;a<=5;a++)for(let b=1;b<=5&&a+b<=10;b++)items.push({op:'+',a,b,r:a+b});
+  for(let a=2;a<=10;a++)for(let b=1;b<a;b++)items.push({op:'-',a,b,r:a-b});
+  const sel=items.filter((_,i)=>i%3===0).slice(0,12);
+  document.getElementById('mathBox').innerHTML=
+    '<div class="big-btn-row" style="margin-bottom:16px">'+
+    '<button class="big-btn primary" onclick="calcMode(\'learn\')">📖 看图学习</button>'+
+    '<button class="big-btn outline" onclick="calcMode(\'quiz\')">🎲 随机出题</button>'+
+    '</div>'+sel.map((it,i)=>calcCard(it,i)).join('');
+}
+function calcCard(it,i){
+  const em=CALC_EMOJI[i%CALC_EMOJI.length];
+  const itemName=['苹果','草莓','花朵','星星','小鱼','气球','老虎','柠檬','蝴蝶','企鹅','鸭子','糖果'][i%12];
+  let cells='';
+  for(let k=0;k<10;k++){
+    let cls='';
+    if(k<it.a)cls='filled-a';
+    else if(k<it.a+it.b&&it.op==='+')cls='filled-b';
+    else if(k<it.a-it.b&&it.op==='-')cls='filled-a';
+    cells+='<div class="tf-cell '+cls+'">'+(cls?em:'')+'</div>';
+  }
+  let emojiRow='';
+  if(it.op==='+')emojiRow=em.repeat(it.a)+' + '+em.repeat(it.b)+' = '+em.repeat(it.r);
+  else emojiRow=em.repeat(it.a)+' − ('+em.repeat(it.b)+') = '+em.repeat(it.r);
+  const eq=it.a+(it.op==='+'?' + ':' − ')+it.b+' = '+it.r;
+  const readText=it.a+'个'+itemName+(it.op==='+'?'加':'减')+it.b+'个'+itemName+'等于'+it.r+'个'+itemName;
+  return '<div class="calc-card">'+
+    '<div class="calc-eq">'+eq+'</div>'+
+    '<div class="calc-emoji-row">'+emojiRow+'</div>'+
+    '<div class="ten-frame">'+cells+'</div>'+
+    '<button class="btn-read" onclick="readCalc('+it.a+',\''+it.op+'\','+it.b+','+it.r+',\''+itemName+'\')">🔊 朗读算式</button>'+
+  '</div>';
+}
+function readCalc(a,op,b,r,itemName){
+  const text=a+'个'+itemName+(op==='+'?'加':'减')+b+'个'+itemName+'等于'+r+'个'+itemName;
+  speak(text,'zh-CN');
+  toast('🔊 '+text);
+}
+let quizCur=null;
+function renderCalcQuiz(){
+  const a=Math.floor(Math.random()*9)+1;
+  const b=Math.floor(Math.random()*9)+1;
+  let op,q,ans;
+  if(Math.random()>0.5){op='+';ans=a+b;if(ans>10)return renderCalcQuiz();q=a+' + '+b+' = ?'}
+  else{if(a<b)return renderCalcQuiz();op='-';ans=a-b;q=a+' − '+b+' = ?'}
+  quizCur={a,op,b,r:ans};
+  const em=CALC_EMOJI[Math.floor(Math.random()*CALC_EMOJI.length)];
+  const itemName=['苹果','草莓','花朵','星星','小鱼','气球'][Math.floor(Math.random()*6)];
+  let cells='';
+  for(let k=0;k<10;k++){
+    let cls='';
+    if(k<a)cls='filled-a';
+    else if(k<a+b&&op==='+')cls='filled-b';
+    else if(k<a-b&&op==='-')cls='filled-a';
+    cells+='<div class="tf-cell '+cls+'">'+(cls?em:'')+'</div>';
+  }
+  let emojiRow=op==='+'?em.repeat(a)+' + '+em.repeat(b):em.repeat(a)+' − ('+em.repeat(b)+')';
+  const opts=[...new Set([ans,Math.max(0,ans-1),ans+1,Math.max(0,ans-2)])].slice(0,4).sort(()=>Math.random()-0.5);
+  document.getElementById('mathBox').innerHTML=
+    '<div class="big-btn-row" style="margin-bottom:16px">'+
+    '<button class="big-btn outline" onclick="calcMode(\'learn\')">📖 看图学习</button>'+
+    '<button class="big-btn primary" onclick="calcMode(\'quiz\')">🎲 随机出题</button>'+
+    '</div>'+
+    '<div class="calc-card">'+
+      '<div class="calc-eq">'+q+'</div>'+
+      '<div class="calc-emoji-row">'+emojiRow+'</div>'+
+      '<div class="ten-frame">'+cells+'</div>'+
+      '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">'+
+        opts.map(o=>'<button class="big-btn ghost" onclick="answerCalc('+o+',\''+itemName+'\')">'+o+'</button>').join('')+
+      '</div>'+
+      '<button class="btn-read" style="margin-top:14px" onclick="readCalcQuiz(\''+itemName+'\')">🔊 听题目</button>'+
+    '</div>';
+}
+function readCalcQuiz(itemName){
+  if(!quizCur)return;
+  const q=quizCur.a+'个'+itemName+(quizCur.op==='+'?'加':'减')+quizCur.b+'个'+itemName+'等于几';
+  speak(q,'zh-CN');
+}
+function answerCalc(o,itemName){
+  if(!quizCur)return;
+  if(o===quizCur.r){
+    toast('✓ 答对了！');
+    const text=quizCur.a+'个'+itemName+(quizCur.op==='+'?'加':'减')+quizCur.b+'个'+itemName+'等于'+quizCur.r+'个'+itemName;
+    speak(text,'zh-CN');
+    addSun(3);
+    setTimeout(renderCalcQuiz,2000);
+  }else{
+    toast('✗ 再想想');
+  }
+}
+
+// 初始化
+renderCatBar();
+renderPoems();
 </script>
 </body>
 </html>
