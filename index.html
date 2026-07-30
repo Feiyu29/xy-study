@@ -27,7 +27,7 @@ html,body{height:100%}
 body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;font-size:17px}
 
-.topbar{background:var(--primary);height:64px;display:flex;align-items:center;padding:0 20px;position:sticky;top:0;z-index:50;color:#fff;box-shadow:0 2px 8px rgba(64,163,245,.15)}
+.topbar{background:var(--primary);height:64px;display:flex;align-items:center;padding:0 20px;padding-top:env(safe-area-inset-top,0);height:calc(64px + env(safe-area-inset-top,0));position:sticky;top:0;z-index:50;color:#fff;box-shadow:0 2px 8px rgba(64,163,245,.15)}
 .topbar .brand{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:600;min-width:0;flex:1;overflow:hidden;white-space:nowrap}
 .topbar .brand-icon{font-size:28px}
 .topbar .date{flex:1;text-align:center;font-size:15px;opacity:.95}
@@ -50,6 +50,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .scrim.show{display:block}
 .menu-toggle{display:none;align-items:center;justify-content:center;width:44px;height:44px;font-size:24px;cursor:pointer;color:#fff;flex-shrink:0;border-radius:8px}
 .menu-toggle:active{background:rgba(255,255,255,.2)}
+
+/* 底部Tab Bar */
+.bottom-nav{display:none;position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--border);padding:6px 0 calc(6px + var(--safe-bottom));z-index:80;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.bn-row{display:flex;justify-content:space-around}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 4px;color:var(--text-light);cursor:pointer;font-size:12px;user-select:none}
+.bn-item .bn-ico{font-size:24px;line-height:1}
+.bn-item.active{color:var(--primary)}
+.bn-item.active .bn-ico{transform:scale(1.15)}
 
 .section-title{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:600;margin-bottom:18px}
 .section-title .ico{font-size:26px}
@@ -168,21 +176,19 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 @media(max-width:1024px){
   .sidebar{position:fixed;left:-240px;top:64px;z-index:95;transition:left .25s;box-shadow:2px 0 12px rgba(0,0,0,.08)}
   .sidebar.open{left:0}
-  .menu-toggle{display:block}
-  .main{padding:20px}
+  .bottom-nav{display:block}
+  .main{padding:20px 20px 90px}
 }
 @media(max-width:640px){
   body{font-size:16px}
-  .topbar{padding:0 10px;height:52px;gap:6px}
+  .topbar{padding:0 12px;height:48px;gap:6px}
   .topbar .brand{font-size:15px;min-width:0;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
   .topbar .brand-icon{font-size:22px;flex-shrink:0}
   .topbar .date{display:none}
   .topbar .sun-btn{padding:6px 10px;font-size:13px;flex-shrink:0}
-  .menu-toggle{display:flex;align-items:center;justify-content:center;width:40px;height:40px;font-size:22px;flex-shrink:0;margin-right:4px;border-radius:8px}
-  .menu-toggle:active{background:rgba(255,255,255,.2)}
-  .layout{min-height:calc(100vh - 52px)}
-  .sidebar{top:52px;height:calc(100vh - 52px);width:210px}
-  .main{padding:14px 12px}
+  .layout{min-height:calc(100vh - 48px)}
+  .sidebar{display:none}
+  .main{padding:12px 12px 78px}
   .section-title{font-size:20px}
   .cards-row{grid-template-columns:1fr;gap:12px;margin-bottom:20px}
   .stat-card{padding:18px;flex-direction:row;justify-content:space-between;gap:14px}
@@ -199,7 +205,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <body>
 
 <header class="topbar">
-  <span class="menu-toggle" onclick="toggleSidebar()">☰</span>
   <div class="brand"><span class="brand-icon">🌻</span><span>赫赫学习工作台</span></div>
   <div class="date" id="topDate">--</div>
   <div class="sun-btn"><span class="sun-icon"></span><span id="sunPoints">0 阳光</span></div>
@@ -261,6 +266,21 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   </main>
 </div>
 
+<!-- 底部Tab Bar（移动端） -->
+<nav class="bottom-nav" id="bottomNav">
+  <div class="bn-row">
+    <div class="bn-item active" data-page="poem" onclick="go('poem',this)">
+      <div class="bn-ico">📜</div><div>古诗</div>
+    </div>
+    <div class="bn-item" data-page="eng" onclick="go('eng',this)">
+      <div class="bn-ico">🔤</div><div>英语</div>
+    </div>
+    <div class="bn-item" data-page="math" onclick="go('math',this)">
+      <div class="bn-ico">🔢</div><div>数学</div>
+    </div>
+  </div>
+</nav>
+
 <div id="toast"></div>
 
 <!-- 英语详情弹窗 -->
@@ -273,7 +293,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 <script>
 // 版本自动刷新
-(function(){var V='20260731a';var S=localStorage.getItem('xy_ver');if(S&&S!==V){localStorage.setItem('xy_ver',V);if(caches)caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k)})});location.reload(true);return}localStorage.setItem('xy_ver',V)})();
+(function(){var V='20260731b';var S=localStorage.getItem('xy_ver');if(S&&S!==V){localStorage.setItem('xy_ver',V);if(caches)caches.keys().then(function(ks){ks.forEach(function(k){caches.delete(k)})});location.reload(true);return}localStorage.setItem('xy_ver',V)})();
 
 // ====== 朗读引擎（慢速+停顿，适合低龄跟读）======
 let speaking=false;
@@ -293,12 +313,15 @@ function stopSpeak(){if('speechSynthesis' in window){speechSynthesis.cancel()}sp
 
 // ====== 页面切换 ======
 function go(name,el){
-  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
-  if(el)el.classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(i=>{
+    i.classList.toggle('active',i.dataset.page===name);
+  });
+  document.querySelectorAll('.bn-item').forEach(i=>{
+    i.classList.toggle('active',i.dataset.page===name);
+  });
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   window.scrollTo(0,0);
-  if(window.innerWidth<=1024)closeSidebar();
   if(name==='poem')renderPoems();
   if(name==='eng')renderEng();
   if(name==='math')mathMode('num');
