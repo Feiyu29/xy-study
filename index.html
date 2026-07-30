@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#40a3f5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="赫赫学习">
+<title>赫赫小学学习工作台</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{
+  --primary:#40a3f5;
+  --primary-light:#e8f3fe;
+  --primary-dark:#2e8ad6;
+  --yellow:#ffc107;
+  --yellow-light:#fff4cc;
+  --green:#3fb95c;
+  --red:#e7434b;
+  --purple:#9b6ed8;
+  --purple-light:#e9dff9;
+  --bg:#f5f7fa;
+  --card:#ffffff;
+  --text:#1f2937;
+  --text-sub:#6b7280;
+  --text-light:#9ca3af;
+  --border:#e5e7eb;
+  --shadow:0 2px 10px rgba(0,0,0,.04);
+  --shadow-hover:0 4px 16px rgba(0,0,0,.08);
+  --radius:14px;
+  --radius-sm:10px;
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+.topbar{
+  background:var(--primary);height:64px;display:flex;align-items:center;padding:0 24px;
+  position:sticky;top:0;z-index:50;color:#fff;box-shadow:0 2px 8px rgba(64,163,245,.15);
+}
+.topbar .brand{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:600;min-width:260px}
+.topbar .brand-icon{font-size:26px;width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.topbar .date{flex:1;text-align:center;font-size:15px;opacity:.95}
+.topbar .sun-btn{
+  background:rgba(255,255,255,.18);padding:8px 16px;border-radius:30px;
+  display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:#fff;cursor:pointer;
+}
+.sun-icon{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#ffd54f,#ff9800);position:relative}
+.sun-icon::after{content:"";position:absolute;inset:-4px;border-radius:50%;background:radial-gradient(circle,rgba(255,193,7,.4),transparent 70%)}
+
+.layout{display:flex;min-height:calc(100vh - 64px);position:relative}
+.sidebar{
+  width:220px;background:#fff;border-right:1px solid var(--border);padding:20px 0;flex-shrink:0;
+  position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto;
+}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.sb-group{margin-bottom:16px}
+.sb-group-title{padding:8px 24px;font-size:12px;color:var(--text-light);font-weight:500;letter-spacing:.5px}
+.sb-item{
+  display:flex;align-items:center;gap:12px;padding:12px 24px;cursor:pointer;
+  color:var(--text);font-size:15px;border-left:3px solid transparent;transition:all .15s;user-select:none;
+}
+.sb-item:hover{background:var(--primary-light);color:var(--primary-dark)}
+.sb-item .ico{width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text-sub);flex-shrink:0}
+.sb-item.active{background:var(--yellow-light);color:#e08e00;font-weight:600;border-left-color:var(--yellow)}
+.sb-item.active .ico{color:#e08e00}
+
+.main{flex:1;padding:24px 28px;min-width:0;overflow-x:hidden}
+.scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90}
+.scrim.show{display:block}
+.menu-toggle{display:none;margin-right:12px;font-size:22px;cursor:pointer;color:#fff}
+
+.section-title{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:600;margin-bottom:16px}
+.section-title .ico{font-size:22px}
+.cards-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px}
+.stat-card{
+  background:var(--card);border-radius:var(--radius);padding:28px 24px;
+  display:flex;flex-direction:column;align-items:center;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;
+}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.stat-card .ico{font-size:46px;line-height:1;margin-bottom:14px;height:56px;display:flex;align-items:center;justify-content:center}
+.stat-card .num{font-size:48px;font-weight:700;color:var(--yellow);line-height:1.1;letter-spacing:-1px}
+.stat-card .num.green{color:var(--green)}
+.stat-card .num.red{color:var(--red)}
+.stat-card .label{font-size:14px;color:var(--text-sub);margin-top:6px}
+
+.poem-panel{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+.poem-panel .panel-title{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:600;margin-bottom:16px}
+.poem-panel .panel-title .ico{font-size:20px}
+.poem-panel .divider{height:1px;background:var(--border);margin-bottom:18px}
+
+.search-box{
+  display:flex;align-items:center;gap:10px;background:var(--bg);border:1px solid var(--border);
+  border-radius:24px;padding:10px 18px;margin-bottom:18px;transition:border .15s;
+}
+.search-box:focus-within{border-color:var(--primary);background:#fff}
+.search-box .si{color:var(--text-light);font-size:16px}
+.search-box input{flex:1;border:none;background:none;outline:none;font-size:14px;color:var(--text)}
+
+.cat-bar{display:flex;gap:8px;overflow-x:auto;padding-bottom:14px;margin-bottom:6px;scrollbar-width:none}
+.cat-bar::-webkit-scrollbar{display:none}
+.cat-bar .cb{
+  flex-shrink:0;padding:6px 14px;border-radius:18px;background:var(--bg);border:1px solid var(--border);
+  font-size:13px;color:var(--text-sub);cursor:pointer;user-select:none;transition:all .15s;
+}
+.cat-bar .cb:hover{background:var(--primary-light);color:var(--primary-dark)}
+.cat-bar .cb.active{background:var(--purple);color:#fff;border-color:var(--purple)}
+
+.poem-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.poem-card{
+  background:var(--purple-light);border-radius:var(--radius);padding:20px 22px;cursor:pointer;
+  transition:transform .15s,box-shadow .15s;position:relative;
+}
+.poem-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(155,110,216,.18)}
+.poem-card.learned{background:#dcf7e3}
+.poem-card .pc-title{font-size:18px;font-weight:700;color:#6d3fb8;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.poem-card.learned .pc-title{color:#2e7d3a}
+.poem-card .pc-author{font-size:13px;color:#8b6dc4;margin-bottom:10px;font-weight:500}
+.poem-card.learned .pc-author{color:#4a8a52}
+.poem-card .pc-content{font-size:14px;color:#4b5563;line-height:1.7;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.poem-card .pc-tag{display:inline-block;background:rgba(155,110,216,.18);color:#6d3fb8;font-size:12px;padding:3px 10px;border-radius:10px}
+.poem-card.learned .pc-tag{background:rgba(63,185,92,.18);color:#2e7d3a}
+.poem-card .pc-check{font-size:18px;color:var(--green)}
+
+#toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(44,62,45,.95);color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;z-index:9999;opacity:0;transition:opacity .25s;pointer-events:none;max-width:80%;text-align:center}
+#toast.show{opacity:1}
+
+.modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.modal-mask.show{display:flex}
+.modal-sheet{background:#fff;width:100%;max-width:640px;border-radius:18px 18px 0 0;padding:20px 20px calc(24px + var(--safe-bottom));max-height:90vh;overflow-y:auto;animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+.ms-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;position:sticky;top:0;background:#fff;z-index:5;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.ms-head h3{font-size:20px;font-weight:700;color:var(--primary-dark)}
+.ms-head .close{font-size:28px;color:var(--text-light);padding:0 4px;line-height:1}
+
+.detail-title{font-size:26px;font-weight:700;text-align:center;color:var(--primary-dark);margin-bottom:6px}
+.detail-author{text-align:center;font-size:15px;color:var(--text-sub);margin-bottom:18px}
+.detail-pinyin-row{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:0 2px;
+  background:var(--primary-light);border-radius:var(--radius);padding:18px 12px;margin-bottom:16px;
+}
+.pp-char{display:inline-flex;flex-direction:column;align-items:center;min-width:28px;padding:2px 4px}
+.pp-py{font-size:11px;color:var(--primary-dark);line-height:1.2;margin-bottom:3px;font-style:italic}
+.pp-zi{font-size:20px;color:var(--text);font-weight:500;line-height:1.2}
+
+.detail-section{margin-bottom:18px}
+.detail-section h4{font-size:14px;color:var(--primary-dark);font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.detail-section .ds-content{font-size:15px;color:var(--text);line-height:1.8;background:var(--bg);padding:14px 16px;border-radius:10px}
+
+.btn-read{
+  background:var(--primary);color:#fff;padding:12px;border-radius:30px;font-size:15px;font-weight:600;
+  width:100%;display:flex;align-items:center;justify-content:center;gap:8px;margin:8px 0 16px;
+}
+.btn-read:active{transform:scale(.98);background:var(--primary-dark)}
+.btn-read.reading{background:var(--green)}
+
+.btn-mark{
+  background:var(--yellow-light);color:#b8860b;padding:12px;border-radius:30px;font-size:15px;font-weight:600;
+  width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-mark.learned{background:#dcf7e3;color:#2e7d3a}
+
+@media (max-width:1024px){
+  .sidebar{position:fixed;left:-220px;top:64px;z-index:95;transition:left .25s;box-shadow:2px 0 12px rgba(0,0,0,.08)}
+  .sidebar.open{left:0}
+  .menu-toggle{display:block}
+  .main{padding:20px}
+}
+@media (max-width:640px){
+  .topbar{padding:0 14px;height:56px}
+  .topbar .brand{font-size:15px;min-width:auto}
+  .topbar .brand-icon{font-size:22px;width:30px;height:30px}
+  .topbar .date{display:none}
+  .topbar .sun-btn{padding:6px 12px;font-size:13px}
+  .layout{min-height:calc(100vh - 56px)}
+  .sidebar{top:56px;height:calc(100vh - 56px)}
+  .main{padding:16px 14px}
+  .section-title{font-size:17px}
+  .cards-row{grid-template-columns:1fr;gap:12px;margin-bottom:20px}
+  .stat-card{padding:20px;flex-direction:row;justify-content:space-between;gap:14px}
+  .stat-card .ico{font-size:32px;margin-bottom:0;height:auto}
+  .stat-card .num{font-size:32px}
+  .stat-card .label{font-size:13px}
+  .stat-card .txt{text-align:right}
+  .poem-grid{grid-template-columns:1fr;gap:12px}
+  .poem-card{padding:16px}
+  .poem-card .pc-title{font-size:16px}
+  .detail-title{font-size:22px}
+  .pp-zi{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="menu-toggle" onclick="toggleSidebar()">☰</span>
+  <div class="brand">
+    <span class="brand-icon">🌻</span>
+    <span>赫赫小学学习工作台</span>
+  </div>
+  <div class="date" id="topDate">2026年7月28日 星期二</div>
+  <div class="sun-btn" title="阳光值">
+    <span class="sun-icon"></span>
+    <span>0 阳光</span>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-group">
+      <div class="sb-group-title">学习天地</div>
+      <div class="sb-item" onclick="setActive(this)"><span class="ico">📖</span><span>汉字学习</span></div>
+      <div class="sb-item active" onclick="setActive(this)"><span class="ico">📜</span><span>古诗100首</span></div>
+      <div class="sb-item" onclick="setActive(this)"><span class="ico">🔢</span><span>算术天地</span></div>
+      <div class="sb-item" onclick="setActive(this)"><span class="ico">🧩</span><span>思维学习</span></div>
+      <div class="sb-item" onclick="setActive(this)"><span class="ico">🔤</span><span>英语/拼音</span></div>
+    </div>
+    <div class="sb-group">
+      <div class="sb-group-title">学习管理</div>
+      <div class="sb-item" onclick="setActive(this)"><span class="ico">✏️</span><span>错题本</span></div>
+      <div class="sb-item" onclick="setActive(this)"><span class="ico">🏰</span><span>保卫基地</span></div>
+    </div>
+    <div class="sb-group">
+      <div class="sb-group-title">成长记录</div>
+      <div class="sb-item" onclick="setActive(this)"><span class="ico">🎁</span><span>奖励中心</span></div>
+      <div class="sb-item" onclick="setActive(this)"><span class="ico">📅</span><span>打卡日历</span></div>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim" onclick="closeSidebar()"></div>
+
+  <main class="main">
+    <div class="section-title"><span class="ico">📜</span><span>古诗100首</span></div>
+    <div class="cards-row">
+      <div class="stat-card"><div class="ico">📜</div><div class="num">100</div><div class="label">必学古诗</div></div>
+      <div class="stat-card"><div class="ico">✅</div><div class="num green" id="learnedCount">0</div><div class="label">已学古诗</div></div>
+      <div class="stat-card"><div class="ico">🎯</div><div class="num red" id="progressPct">0%</div><div class="label">学习进度</div></div>
+    </div>
+
+    <div class="poem-panel">
+      <div class="panel-title"><span class="ico">📜</span><span>幼儿园必学古诗100首</span></div>
+      <div class="divider"></div>
+      <div class="search-box">
+        <span class="si">🔍</span>
+        <input type="text" id="searchInput" placeholder="搜索古诗标题或作者..." oninput="filterPoems()">
+        <span id="resultCount" style="font-size:12px;color:var(--text-light);white-space:nowrap">共 100 首</span>
+      </div>
+      <div class="cat-bar" id="catBar"></div>
+      <div class="poem-grid" id="poemGrid"></div>
+    </div>
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<!-- 古诗详情弹窗 -->
+<div class="modal-mask" id="detailModal">
+  <div class="modal-sheet">
+    <div class="ms-head">
+      <h3>📖 古诗详情</h3>
+      <span class="close" onclick="closeModal('detailModal')">×</span>
+    </div>
+    <div id="detailBody"></div>
+  </div>
+</div>
+
+<script src="poems-data.js"></script>
+<script>
+const wk=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+const d=new Date();
+document.getElementById('topDate').textContent=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 ${wk[d.getDay()]}`;
+
+function setActive(el){
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  if(window.innerWidth<=1024) closeSidebar();
+}
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('scrim').classList.toggle('show')}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('scrim').classList.remove('show')}
+function openModal(id){document.getElementById(id).classList.add('show')}
+function closeModal(id){document.getElementById(id).classList.remove('show');stopRead()}
+document.querySelectorAll('.modal-mask').forEach(m=>m.addEventListener('click',e=>{if(e.target===m){m.classList.remove('show');stopRead()}}));
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800)}
+
+// 学习状态存储
+let learned = JSON.parse(localStorage.getItem('xy_learned_v1')||'{}');
+function saveLearned(){localStorage.setItem('xy_learned_v1',JSON.stringify(learned))}
+function isLearned(n){return !!learned[n]}
+
+let curCat='all';
+const CATS=['全部','春天','夏天','秋天','冬天','山水','田园','思乡','送别','边塞','怀古','忧国','咏物','励志','感恩','哲理','春节','动物','咏怀'];
+
+function renderCatBar(){
+  document.getElementById('catBar').innerHTML=CATS.map((c,i)=>`<div class="cb ${i===0?'active':''}" data-c="${i===0?'all':c}" onclick="pickCat('${i===0?'all':c}')">${c}</div>`).join('');
+}
+function pickCat(c){
+  curCat=c;
+  document.querySelectorAll('.cat-bar .cb').forEach(b=>b.classList.toggle('active',b.dataset.c===c));
+  filterPoems();
+}
+function getFiltered(){
+  const kw=(document.getElementById('searchInput').value||'').trim().toLowerCase();
+  let arr=POEMS;
+  if(curCat!=='all') arr=arr.filter(p=>p.tag===curCat);
+  if(kw) arr=arr.filter(p=>p.title.includes(kw)||p.author.toLowerCase().includes(kw)||p.tag.includes(kw));
+  return arr;
+}
+function renderPoems(list){
+  const grid=document.getElementById('poemGrid');
+  if(list.length===0){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--text-light)">🔍 没有找到相关古诗</div>`;return}
+  grid.innerHTML=list.map(p=>{
+    const learnedCls=isLearned(p.n)?'learned':'';
+    const check=isLearned(p.n)?'<span class="pc-check">✅</span>':'';
+    return `<div class="poem-card ${learnedCls}" onclick="openDetail(${p.n})">
+      <div class="pc-title"><span>${p.n}. ${p.title}</span>${check}</div>
+      <div class="pc-author">【${p.author}】</div>
+      <div class="pc-content">${p.content}</div>
+      <span class="pc-tag">${p.tag}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('resultCount').textContent=`共 ${list.length} 首`;
+}
+function filterPoems(){renderPoems(getFiltered())}
+
+// 更新统计
+function updateStats(){
+  const cnt=Object.keys(learned).filter(k=>learned[k]).length;
+  document.getElementById('learnedCount').textContent=cnt;
+  document.getElementById('progressPct').textContent=Math.round(cnt/100*100)+'%';
+}
+
+// 详情弹窗
+let curDetail=null;
+function openDetail(n){
+  const p=POEMS.find(x=>x.n===n);
+  if(!p) return;
+  curDetail=p;
+  // 拼音逐字
+  const chars=p.content.split('');
+  const pyRow = p.pinyinChars ? p.pinyinChars.map(py=>`<span class="pp-char"><span class="pp-py">${py}</span><span class="pp-zi"></span></span>`).join('') : '';
+  // 简单逐字对齐：直接按字符显示
+  const charHtml = chars.map((c,i)=>{
+    const py = p.pinyinChars ? (p.pinyinChars[i]||'') : '';
+    return `<span class="pp-char"><span class="pp-py">${py}</span><span class="pp-zi">${c}</span></span>`;
+  }).join('');
+
+  const learnedFlag=isLearned(n);
+  document.getElementById('detailBody').innerHTML=`
+    <div class="detail-title">${p.title}</div>
+    <div class="detail-author">【${p.author}】</div>
+    <div class="detail-pinyin-row">${charHtml}</div>
+    <button class="btn-read" id="readBtn" onclick="toggleRead()">🔊 朗读</button>
+    <div class="detail-section">
+      <h4>📝 译文</h4>
+      <div class="ds-content">${p.translate||'暂无译文'}</div>
+    </div>
+    <div class="detail-section">
+      <h4>💡 赏析</h4>
+      <div class="ds-content">${p.appreciation||'暂无赏析'}</div>
+    </div>
+    <div class="detail-section">
+      <h4>👤 作者介绍</h4>
+      <div class="ds-content">${p.authorIntro||'暂无介绍'}</div>
+    </div>
+    <button class="btn-mark ${learnedFlag?'learned':''}" onclick="toggleLearn()">${learnedFlag?'✅ 已学习，点击取消':'⭐ 标记为已学'}</button>
+  `;
+  openModal('detailModal');
+}
+
+// 朗读（Web Speech API）
+let speaking=false;
+function toggleRead(){
+  if(speaking){stopRead();return}
+  if(!curDetail) return;
+  if(!('speechSynthesis' in window)){toast('浏览器不支持朗读');return}
+  stopRead();
+  const u=new SpeechSynthesisUtterance();
+  u.text=curDetail.title+'，'+curDetail.author+'。'+curDetail.content+'。'+(curDetail.translate||'');
+  u.lang='zh-CN';u.rate=0.85;u.pitch=1.05;
+  u.onend=()=>{speaking=false;updateReadBtn()};
+  u.onerror=()=>{speaking=false;updateReadBtn()};
+  speechSynthesis.speak(u);
+  speaking=true;
+  updateReadBtn();
+}
+function stopRead(){if('speechSynthesis' in window){speechSynthesis.cancel()}speaking=false;updateReadBtn()}
+function updateReadBtn(){
+  const b=document.getElementById('readBtn');
+  if(!b) return;
+  if(speaking){b.textContent='⏸️ 停止朗读';b.classList.add('reading')}
+  else{b.textContent='🔊 朗读'}
+}
+
+// 打卡
+function toggleLearn(){
+  if(!curDetail) return;
+  const n=curDetail.n;
+  if(learned[n]){delete learned[n];toast('已取消学习')}
+  else{learned[n]=new Date().toISOString().slice(0,10);toast('✓ 已标记学习，加油！')}
+  saveLearned();
+  updateStats();
+  // 更新弹窗按钮
+  const btn=document.querySelector('.btn-mark');
+  if(btn){
+    const flag=isLearned(n);
+    btn.classList.toggle('learned',flag);
+    btn.textContent=flag?'✅ 已学习，点击取消':'⭐ 标记为已学';
+  }
+  filterPoems();
+}
+
+renderCatBar();
+renderPoems(POEMS);
+updateStats();
+</script>
+</body>
+</html>
